@@ -37,5 +37,6 @@ var nonRepeatLongestSubstring = function(str){
         substringList.push(curString);
     }
 
+
     return Math.max(...substringList.map(item => item.length));
 }
