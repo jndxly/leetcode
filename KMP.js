@@ -54,7 +54,7 @@ function kmp(matchStr, subStr){
             k ++;
         }
         if(k == subStr.length -1){
-            return len-subStr.length;
+            return len-subStr.length + 1;
         }
 
     }
