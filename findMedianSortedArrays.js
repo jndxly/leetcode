@@ -120,3 +120,41 @@ function getMediaNum(len1, len2, nums1, nums2, odd){
         return (num1 + num2)/2;
     }
 }
+
+let result = find([1,2], [3,4]);
+console.log(result)
+function find(arr1, arr2){
+
+    if(arr1.length > arr2.length){
+        return find(arr2, arr1);
+    }
+    let len1 = arr1.length, len2 = arr2.length, mid = len1 + len2;
+    let left = 0, right = 2*len1;
+    let left1, left2, right1,right2;
+
+    while(left < right){
+
+        let mid1 = Math.floor((left + right) / 2);
+        let mid2 = (mid - mid1);
+        left1 = mid1 == 0? Number.NEGATIVE_INFINITY: arr1[Math.floor((mid1 - 1)/2)];
+        right1 = mid1 == 2*len1? Number.POSITIVE_INFINITY: arr1[Math.floor(mid1 / 2)];
+        left2 = mid2 == 0? Number.NEGATIVE_INFINITY: arr2[Math.floor((mid - mid1 - 1)/2)];
+        right2 = mid2 == 2*len2? Number.POSITIVE_INFINITY: arr2[Math.floor((mid - mid1)/2)];
+
+        if(left1 > right2){
+            right = mid1 - 1
+        }
+        else if(left2 > right1){
+            left = mid1 + 1;
+        }
+        else {
+            break;
+        }
+
+    }
+    return (Math.max(left1, left2) + Math.min(right1,right2))/2.0
+
+
+
+
+}
