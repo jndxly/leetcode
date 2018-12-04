@@ -29,12 +29,7 @@ var longestPalindrome = function(s) {
 
     }
     return longStr;
-
-
-
-
-
-};
+}
 
 //匹配第一种
 function palindrome(s, len, longStr, mode){
@@ -70,3 +65,52 @@ function palindrome(s, len, longStr, mode){
 
 
 }
+
+
+
+var s = "babad";
+var p = getLongest(s);
+console.log(Math.max(...p) - 1)
+
+/**
+ * mx > i，那么P[i] >= MIN(P[2 * id - i], mx - i)
+ * @param str 字符串
+ * @param mx 最长回文子串的右边界
+ * @param id 最长回文子串的中心位置
+ * @param p[i]字符串s 位置i的最长回文子串
+ * @returns {Array}
+ */
+
+
+
+
+function getLongest(str){
+  var p = [], mx = 0, id = 0;
+  let s = process(str);
+  p[0] = 0;
+  for (let i = 1; i < s.length; i++)
+  {
+    p[i] = mx > i ? Math.min(p[2 * id - i], mx - i) : 1;
+    while (s[i + p[i]] == s[i - p[i]])
+      p[i]++;
+    if (i + p[i] > mx){
+      mx = i + p[i];
+      id = i;
+    }
+  }
+  return p;
+}
+
+function process(str){
+
+    let newStr = "^#", len = 0;
+    while(len < str.length){
+        newStr += str.charAt(len) + "#";
+        len++;
+    }
+    return newStr + "$";
+
+}
+
+
+

@@ -33,3 +33,44 @@ var isPalindrome = function(x) {
     }
     return true;
 };
+
+/*
+define function node(){
+
+    this.val = undefined;
+    this.next = null;
+
+}
+ */
+
+function check(node){
+
+    let tail, pre = node;
+    tail = convert(node,tail);
+    while(pre !== tail){
+        let preVal = pre.val;
+        let tailVal = tail.val;
+        if(pre == tailVal){
+            continue;
+        }
+        else{
+            return false;
+        }
+    }
+    return true;
+
+
+
+
+}
+
+function convert(node,tail){
+    let head = node, pre = null;
+    while(node){
+        node.pre = pre;
+        pre = node;
+        node = node.next;
+    }
+    tail = pre;
+    return tail;
+}

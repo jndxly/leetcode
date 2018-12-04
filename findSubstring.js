@@ -13,6 +13,42 @@
 输出的顺序不重要, [9,0] 也是有效答案。
  */
 
+
+ function find(s, words){
+
+    words.sort();
+    let wordLen = words && words.length && words[0].length;
+    let count = words.length, total = wordLen * count;
+    let tmpArr = [], tmp = "", result = [];
+
+    for(let len = 0; len < s.length - total; len++){
+
+        for(let i = 0, index = 0; i < total; i++, index++){
+
+            if(index < wordLen){
+                index = 0;
+                tmpArr.push(tmp)
+                tmp = "";
+            }
+
+            tmp += s.charAt(i);
+            index ++;
+
+        }
+        tmpArr.sort();
+        for(let num = 0; num < words.length; num++){
+            if(words[num] == tmpArr[num]){
+                result.push(len)
+            }
+            else{
+                break;
+            }
+        }
+
+    }
+
+ }
+
 /**
  * @param {string} s
  * @param {string[]} words
