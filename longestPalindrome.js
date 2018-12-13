@@ -83,7 +83,7 @@ console.log(Math.max(...p) - 1)
 
 
 
-
+getLongest("google")
 function getLongest(str){
   var p = [], mx = 0, id = 0;
   let s = process(str);
@@ -94,7 +94,7 @@ function getLongest(str){
     while (s[i + p[i]] == s[i - p[i]])
       p[i]++;
     if (i + p[i] > mx){
-      mx = i + p[i];
+      p[i] = mx - i;
       id = i;
     }
   }

@@ -135,7 +135,7 @@ function find(arr1, arr2){
     while(left <= right){
 
         let mid1 = Math.floor((left + right) / 2);
-        let mid2 = (mid - mid1);4
+        let mid2 = (mid - mid1);
         left1 = mid1 == 0? Number.NEGATIVE_INFINITY: arr1[Math.floor((mid1 - 1)/2)];
         right1 = mid1 == 2*len1? Number.POSITIVE_INFINITY: arr1[Math.floor(mid1 / 2)];
         left2 = mid2 == 0? Number.NEGATIVE_INFINITY: arr2[Math.floor((mid - mid1 - 1)/2)];

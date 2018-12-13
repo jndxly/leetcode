@@ -74,4 +74,3 @@ function flagArrs(arr, m, n, sum){
 
 
 let arr = flagArrs([-2, -1, 0, 1, 2],5, 3, 0)
-debugger;
