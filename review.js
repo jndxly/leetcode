@@ -62,6 +62,14 @@ function StringContain(str1, str2){
 
 var arr = [];
 permutation("abc",arr);
+/*
+升序：相邻两个位置ai < ai+1，ai 称作该升序的首位
+步骤（二找、一交换、一翻转）
+找到排列中最后（最右）一个升序的首位位置i，x = ai
+找到排列中第i位右边最后一个比ai 大的位置j，y = aj
+交换x，y
+把第(i+ 1)位到最后的部分翻转
+ */
 function permutation(str, arr){
 
     let str2arr = str.split("");
@@ -693,3 +701,46 @@ function getRepeat3(arr){
 给定一整型数组，若数组中某个下标值大的元素值小于某个下标值比它小的元素值，称这是一个反序。 即：数组a[]; 对于i < j 且 a[i] > a[j],
 则称这是一个反序。 给定一个数组，要求写一个函数，计算出这个数组里所有反序的个数。
 * */
+var count = 0;
+var arr = [3,6,1,5,4,2]
+mergeSort(arr, 0, 5)
+function mergeSort(arr, start, end){
+
+    if(start < end){
+
+        let mid = Math.floor((start + end) / 2);
+        mergeSort(arr, start, mid);
+        mergeSort(arr, mid + 1, end );
+        merge(arr, start, mid, end);
+    }
+    else{
+        return arr;
+    }
+}
+function merge(arr, start, mid, end){
+
+    let newArr = [];
+    let i = start;
+    let j = mid + 1;
+    while(i <= mid && j <= end){
+        if(arr[i] <= arr[j]){
+            newArr.push(arr[i]);
+            i++;
+        }
+        else{
+            newArr.push(arr[j])
+            j++;
+            count += mid - i + 1;
+        }
+    }
+    while(i <= mid){
+        newArr.push(arr[i++])
+    }
+    while(j <= end){
+        newArr.push(arr[j++]);
+    }
+    for(let i = 0; i < newArr.length; i++){
+        arr[start++] = newArr[i];
+    }
+
+}
