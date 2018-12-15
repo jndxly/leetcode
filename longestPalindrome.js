@@ -94,7 +94,7 @@ function getLongest(str){
     while (s[i + p[i]] == s[i - p[i]])
       p[i]++;
     if (i + p[i] > mx){
-      p[i] = mx - i;
+      mx = p[i] + i;
       id = i;
     }
   }
