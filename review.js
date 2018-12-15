@@ -60,6 +60,43 @@ function StringContain(str1, str2){
 
 }
 
+/*
+如果两个字符串的字符一样，但是顺序不一样，被认为是兄弟字符串，比如bad和adb即为兄弟字符串，
+现提供一个字符串，如何在字典中迅速找到它的兄弟字符串，请描述数据结构和查询过程。
+ */
+function isSiblingStr(str1, str2){
+
+    if(str1.length != str2.length ){
+        return false;
+    }
+
+    let hashObj = {};
+    for(let len = 0; len < str1.length; len++){
+        if(hashObj[str1.charAt(len)]){
+            hashObj[str1.charAt(len)] = 1;
+        }
+        else{
+            hashObj[str1.charAt(len)]++;
+        }
+    }
+    for(let len = 0; len <str2.length; len++){
+        if(hashObj[str2.charAt(len)]){
+            hashObj[str2.charAt(len)]--;
+        }
+        else{
+            return false;
+        }
+    }
+    for(let item in hashObj){
+        if(hashObj[item] != 0){
+            return false;
+        }
+
+    }
+    return true;
+
+}
+
 var arr = [];
 permutation("abc",arr);
 /*
