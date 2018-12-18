@@ -31,6 +31,45 @@ P     I
  * @param {number} numRows
  * @return {string}
  */
+convert1("PAYPALISHIRING",3)
+function convert1(s, numRows){
+
+    if(s.length <= 1 || numRows <= 1){
+        return s;
+    }
+
+    let circle = numRows * 2 - 2;
+    let arr = [];
+    for(let len = 0; len < numRows; len++){
+        arr[len] = [];
+    }
+    let row = 0;
+    for(let i = 0; i < s.length; i++){
+        row = i % circle;
+        if(row < numRows){
+            arr[row].push(s.charAt(i));
+        }
+        else{
+            let left = (row % numRows);
+            row = numRows - 2 - left;
+            arr[row].push(s.charAt(i));
+        }
+
+
+
+    }
+    // let arr = [];
+    for(let i = 0; i < arr.length; i++){
+        console.log(arr[i]);
+    }
+
+}
+
+
+
+
+
+
 var convert = function(s, numRows) {
 
     var arr = [];

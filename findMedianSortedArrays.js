@@ -22,6 +22,79 @@
  * @param {number[]} nums2
  * @return {number}
  */
+
+findKmin([1,3,14,5,],[2,4,6],3)
+/*
+获取arr1和arr2中第k小的数
+* */
+function findKmin(arr1, arr2, k){
+
+    let  len1 = arr1.length;
+    let len2 = arr2.length;
+    let bound1 = len1 > k? k:len1;
+    let bound2 = len2 > k? k:len2;
+    let mid = k - 1;
+    let left1,right1,left2,right2;
+    let left = 0;
+    let right = bound1;
+    let mid1, mid2;
+    while(left < right){
+        mid1 = Math.floor((left + right)/2);
+        mid2 = mid - mid1;
+        left1 = mid1 == 0?Number.NEGATIVE_INFINITY:arr1[mid1 - 1];
+        right1 = mid1 == bound1?Number.POSITIVE_INFINITY:arr1[mid1];
+        left2 = mid2 == 0?Number.NEGATIVE_INFINITY:arr2[mid2 - 1];
+        right2 = mid2 == bound2?Number.POSITIVE_INFINITY:arr2[mid2];
+        if(left1 > right2){
+            right = mid - 1;
+        }
+        else if(left2 > right1){
+            left = mid + 1;
+        }
+        else{
+            break;
+        }
+
+    }
+
+
+    return Math.min(right1, right2)
+}
+
+function findMideaNum(arr1, arr2){
+
+    if(arr1.length > arr2.length){
+        return findMideaNum(arr2, arr1)
+    }
+    let len1 = arr1.length,len2 = arr2.length;
+    let left = 0, right = 2*len1;
+    let left1,right1, left2, right2;
+    let mid = len1+len2, mid1, mid2;
+    while(left < right){
+
+        mid2 = mid - mid1;
+        left1 = mid1 == 0? Number.NEGATIVE_INFINITY:arr1[Math.floor((mid1-1) / 2)];
+        right1 = mid1 == 2*len1?Number.POSITIVE_INFINITY:arr2[Math.floor(mid1 / 2)];
+        left2 = mid2 == 0?Number.NEGATIVE_INFINITY:arr2[Math.floor((mid2 - 1)/2)];
+        right2 = mid2 == 2 * len2?Number.POSITIVE_INFINITY:arr2[Math.floor(mid2/2)];
+        if(left1 > right2){
+            right = mid1 - 1;
+        }
+        else if(left2 > right1){
+            left = mid1 + 1;
+        }
+        else{
+            break;
+        }
+
+    }
+    return (Math.max(left1, left2) + Math.min(right1, right2))/2
+
+
+}
+
+
+
 var findMedianSortedArrays =  function(nums1, nums2){
     debugger;
     var len1 = 0, len2 = 0, len = 0;
