@@ -781,3 +781,189 @@ function merge(arr, start, mid, end){
     }
 
 }
+
+/*
+// 实现一个add方法，使计算结果能够满足如下预期：
+add(1)(2)(3) = 6;
+add(1, 2, 3)(4) = 10;
+add(1)(2)(3)(4)(5) = 15;
+
+ */
+function add() {
+    // 第一次执行时，定义一个数组专门用来存储所有的参数
+    var _args = [].slice.call(arguments);
+
+    // 在内部声明一个函数，利用闭包的特性保存_args并收集所有的参数值
+    var adder = function () {
+        var _adder = function() {
+            // [].push.apply(_args, [].slice.call(arguments));
+            _args.push(...arguments);
+            return _adder;
+        };
+
+        // 利用隐式转换的特性，当最后执行时隐式转换，并计算最终的值返回
+        _adder.valueOf = function () {
+            return _args.reduce(function (a, b) {
+                return a + b;
+            });
+        }
+
+        return _adder;
+    }
+    // return adder.apply(null, _args);
+    return adder(..._args);
+}
+
+//  通用的函数柯里化构造方法
+function curry(func){
+    //新建args保存参数，注意，第一个参数应该是要柯里化的函数，所以args里面去掉第一个
+    var args = [].slice.call(arguments,1);
+    //新建_func函数作为返回值
+    var _func =  function(){
+        //参数长度为0，执行func函数，完成该函数的功能
+        if(arguments.length === 0){
+            return func.apply(this,args);
+        }else {
+            //否则，存储参数到闭包中，返回本函数
+            [].push.apply(args,arguments);
+            return _func;
+        }
+    }
+    return _func;
+}
+
+function add1(){
+    return [].reduce.call(arguments,function(a,b){return a+b});
+}
+console.log(curry(add1,1,2,3)(1)(2)(3,4,5,5)(5,6,6,7,8,8)(1)(1)(1)());//69
+
+/*函数节流*/
+/**函数的去抖动**/
+function debounce(method,delay){
+    var timer=null;
+    return function(){
+        var context=this, args=arguments;
+        clearTimeout(timer);
+        timer=setTimeout(function(){
+            method.apply(context,args);
+        },delay);
+    }
+}
+function resizehandler(){
+    console.log(++n);
+}
+window.onresize=debounce(resizehandler,500);
+
+/*
+* 函数预先设定一个执行周期，当调用动作的时刻大于等于执行周期则执行该动作，然后进入下一个新周期
+* */
+function throttle(method,duration){
+    var  begin=new Date();
+    return function(){
+        var context=this, args=arguments, current=new Date();
+        if(current-begin>=duration){
+            method.apply(context,args);
+            begin=current;
+        }
+    }
+}
+window.onresize=throttle(resizehandler,500);
+
+
+
+function Template(tpl) {
+    var
+        fn,
+        match,
+        code = ['var r=[];'],
+        re = /\{\s*([a-zA-Z\.\_0-9()]+)\s*\}/m,
+        addLine = function (text) {
+            code.push('r.push(\'' + text.replace(/\'/g, '\\\'').replace(/\n/g, '\\n').replace(/\r/g, '\\r') + '\');');
+        };
+    while (match = re.exec(tpl)) {
+        if (match.index > 0) {
+            addLine(tpl.slice(0, match.index));
+        }
+        code.push('r.push(this.' + match[1] + ');');
+        tpl = tpl.substring(match.index + match[0].length);
+    }
+    addLine(tpl);
+    code.push('return r.join(\'\');');
+    // 创建函数:
+    fn = new Function(code.join('\n'));
+    // 用render()调用函数并绑定this参数：
+    this.render = function (model) {
+        return fn.apply(model);
+    };
+}
+var str = '<p>Today: { date }</p>\n' +
+    '    <a href="/{ user.id|safe }">{ user.company }</a>';
+var tpl = new Template(str);
+var s = tpl.render({
+    date: 20150101,
+    user: {
+        id: 'A-000&001',
+        company: 'AT&T'
+    }
+});
+
+/*
+求二叉树是否存爱和值为N的路径
+
+从二叉树的根到叶子节点称为一条路径，路径上的每个节点的value之和为路径和值，是否存在一条和值为N的。
+ */
+function getPath(root,total, sum, path){
+
+    if(root== null){
+        return;
+    }
+    path.push(root.val)
+    total += root.val;
+    if(root.left == null && root.right == null && total == sum){
+        print(path);
+    }
+
+    if(root.left){
+        getPath(root.left, total, sum, path)
+    }
+    if(root.right){
+        getPath(root.right, total, sum, path)
+    }
+    total -= root.val;
+    path.pop();
+
+}
+
+function getPath(root, sum){
+    if(root== null){
+        return null;
+    }
+    let stack = [], res = [];
+    let total = 0;
+    stack.push(root);
+    res.push
+
+    while(stack.length > 0){
+
+        /*每次出战加入res*/
+        let node = stack.pop();
+        res.push(node.val);
+        if( node.left == null && node.right == null){
+            if(checkNum(res) == total){
+                print();
+            }
+            res.pop();//到叶子节点后，叶子节点出栈
+        }
+        if(node.right){
+            stack.push(node.right)
+        }
+        if(node.left){
+            stack.push(node.left);
+        }
+        stack.pop();
+
+
+
+    }
+
+}
