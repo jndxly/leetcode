@@ -179,7 +179,7 @@ function combineStr3(str, num, pre, arr){
 如果不是求字符的所有排列，而是求字符的所有组合，应该怎么办呢？当输入的字符串中含有相同的字符串时，相同的字符交换位置是不同的排列，但是同一个组合。
 举个例子，如果输入abc，它的组合有a、b、c、ab、ac、bc、abc。
  */
-combine4("abcd", [])
+combine4("abc", [])
 function combine4(str, arr){
 
     for(let len = 1 ; len <= str.length; len++){
@@ -197,7 +197,7 @@ function getStr(str, num, pre, arr){
     }
     else{
         for(let len = 0; len <= str.length - num; len++){
-            getStr(str.substr(len + 1), num - 1, pre + str.charAt(len), arr)
+            getStr(str.substr(0, len) + str.substr(len + 1), num - 1, pre + str.charAt(len), arr)
         }
     }
 
@@ -245,7 +245,7 @@ function findFirst1(str){
 /*
 * * 输入一个字符串，输出该字符串中对称的子字符串的最大长度。比如输入字符串“google”，由于该字符串里最长的对称子字符串是“goog”，因此输出4。
 * */
-getPardim("12123432")
+getPardim("google")
 function getPardim(str){
 
     if(str.length == 0)
@@ -259,7 +259,7 @@ function getPardim(str){
     for(let len = 1; len < newStr.length; len++){
         p[len] = xm > len?  Math.min(xm - len, 2 * id - len) : 1;
 
-        while(len + p[len] < newStr.length && newStr[ len + p[len]] == newStr[len - p[len]]){
+        while(newStr[ len + p[len]] == newStr[len - p[len]]){
             p[len]++;
         }
 
@@ -968,67 +968,87 @@ function getPath(root, sum){
 
 }
 
-/*实现一个eventEmitter*/
-var EventEmitter= function(){
-  this._eventListeners = {};
-}
-
-EventEmitter.prototype = {
-  constructor:EventEmitter,
-  on:function(evt, handler, context){
-
-    if(this._eventListeners[evt] == undefined){
-      this._eventListeners[evt] = [];
-    }
-    else{
-
-    }
-    let obj = {
-      handler :handler,
-      context:context
-    }
-    this._eventListeners.push(obj);
-    return obj;
-  },
-  off(evt, handler, context){
-    let arr = this._eventListeners[evt];
-    for(let len = 0; len < arr.length; len++){
-      if(arr[len].handler === handler && arr[len].context == context){
-        arr.splice(len,1);
-      }
-    }
-  },
-  emit : function(type, args){
-    let handlers = this._eventListeners[type];
-    for(let len = 0; len < handlers.length; len++){
-      handlers[len].handler.apply(this, args)
-    }
-  }
-}
-
 /*
-给出 n 代表生成括号的对数，请你写出一个函数，使其能够生成所有可能的并且有效的括号组合。
+Promise封装ajax请求
  */
-var generateParenthesis = function(n,left, right, pre, arr){
-    if(n == 0)return "";
 
-    if(left == right){
+function ajax(url,type,param,async,header) {
+    return new Promise(function (resolve, reject) {
+        var xhr;
+        if(window.XMLHttpRequest){
+            xhr = new XMLHttpRequest();
+        }
+        else if(window.ActiveXObject){
+            xhr = new ActiveXObject("Microsoft.XMLHTTP")
+        }
+        xhr.onreadystatechange = function(){
+            if(xhr.state == 4){
+                if(xhr.status >= 200 || xhr.status < 300){
 
-        if(left < n){
-            generateParenthesis(n, left + 1, right, pre + "(", arr);
+                }
+            }
+        }
+
+        type == null || type.toUpperCase() == 'GET' ? type = 'get' : type = 'post';
+        param = formatParams(param);
+        param == null || param == '' ? url : url = url + '?' + param;
+        async == null || async == true ? async = true : async = false;
+        //设置表单提交时的内容类型，未完
+        //xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        req.open(type, url, async);
+        req.send();
+    });
+
+    function formatParams(data) {
+        var _fpArr = [];
+        for (var _fpName in data) {
+            _fpArr.push(_fpName + "=" + data[_fpName]);
+        }
+        return _fpArr.join("&");
+    };
+}
+
+function getNext(str, next){
+
+    next[0] = -1;
+    let k = -1;
+    for(let i = 1; i < str.length; i++){
+
+        if(str[i] == str[k + 1]){
+            k++;
         }
         else{
-            arr.push(pre)
+
+            while(k != -1 && str[i] != str[k+1]){
+                k = next[k];
+            }
+            next[i] = k;
+
         }
 
     }
-    else if(left > right){
 
-      if(left < n){
-        generateParenthesis(left + 1, right, n, arr, pre + "(")
-      }
-      generateParenthesis(left, right + 1, n, arr,  pre + ")")
+}
+function kmp(str, matchStr){
+
+    let next = [],k = -1;
+    getNext(matchStr);
+    for(let i = 0; i < str.length; i++){
+
+        if(str[i] == matchStr[k + 1]){
+            k++;
+            if(k == matchStr.length - 1){
+                return i -k ;
+            }
+        }
+        else{
+
+            while(k != -1 && matchStr[k + 1] != str[i]){
+                k = next[k];
+            }
+
+        }
+
     }
 
 }
-
