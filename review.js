@@ -197,7 +197,7 @@ function getStr(str, num, pre, arr){
     }
     else{
         for(let len = 0; len <= str.length - num; len++){
-            getStr(str.substr(0, len) + str.substr(len + 1), num - 1, pre + str.charAt(len), arr)
+            getStr( str.substr(len + 1), num - 1, pre + str.charAt(len), arr)
         }
     }
 
@@ -536,7 +536,7 @@ function coinExchange(cash, m){
     if(cash == 0){
         return 1;
     }
-    if(cash <0 | m == 0){
+    if(cash <0 || m == 0){
         return 0;
     }
     return coinExchange(cash, m - 1) + coinExchange(cash - dim[m - 1], m)
@@ -644,7 +644,7 @@ function tripleSwap(arr){
 有个长度为2n的数组{a1,a2,a3,...,an,b1,b2,b3,...,bn}，希望排序后{a1,b1,a2,b2,....,an,bn}，请考虑有无时间复杂度o(n)，空间复杂度0(1)的解法。
  */
 var arr = [];
-for(var len = 0; len < 20; len++){
+for(var len = 0; len < 60; len++){
     arr[len] = len ;
 }
 testArr(arr)
@@ -710,17 +710,25 @@ function getRepeat(arr){
 找出数组中，数都是两两重复的，有两个是唯一出现的，找出来
 * */
 getRepeat3([1,1,2,2,3,3,4,5])
+function findFristBitIs1(num){
+    let index = 1;
+    while( (index & num) != index){
+        index <<= 1;
+    }
+    return index;
+}
 function getRepeat3(arr){
 
     let hash = 0;
     for(let len = 0; len < arr.length; len++){
         hash ^= arr[len];
     }
+    let firstBitIs1 = findFristBitIs1(hash);
     let hash1 = 0;
     let hash2 = 0;
     for(let len = 0; len < arr.length; len++){
 
-        if(hash & arr[len]){
+        if(firstBitIs1 & arr[len]){
             hash1 ^= arr[len];
         }
         else{
@@ -852,7 +860,7 @@ function debounce(method,delay){
 function resizehandler(){
     console.log(++n);
 }
-window.onresize=debounce(resizehandler,500);
+this.onresize=debounce(resizehandler,500);
 
 /*
 * 函数预先设定一个执行周期，当调用动作的时刻大于等于执行周期则执行该动作，然后进入下一个新周期
@@ -867,7 +875,7 @@ function throttle(method,duration){
         }
     }
 }
-window.onresize=throttle(resizehandler,500);
+this.onresize=throttle(resizehandler,500);
 
 
 
@@ -963,6 +971,91 @@ function getPath(root, sum){
         stack.pop();
 
 
+
+    }
+
+}
+
+/*
+Promise封装ajax请求
+ */
+
+function ajax(url,type,param,async,header) {
+    return new Promise(function (resolve, reject) {
+        var xhr;
+        if(window.XMLHttpRequest){
+            xhr = new XMLHttpRequest();
+        }
+        else if(window.ActiveXObject){
+            xhr = new ActiveXObject("Microsoft.XMLHTTP")
+        }
+        xhr.onreadystatechange = function(){
+            if(xhr.state == 4){
+                if(xhr.status >= 200 || xhr.status < 300){
+
+                }
+            }
+        }
+
+        type == null || type.toUpperCase() == 'GET' ? type = 'get' : type = 'post';
+        param = formatParams(param);
+        param == null || param == '' ? url : url = url + '?' + param;
+        async == null || async == true ? async = true : async = false;
+        //设置表单提交时的内容类型，未完
+        //xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        req.open(type, url, async);
+        req.send();
+    });
+
+    function formatParams(data) {
+        var _fpArr = [];
+        for (var _fpName in data) {
+            _fpArr.push(_fpName + "=" + data[_fpName]);
+        }
+        return _fpArr.join("&");
+    };
+}
+
+function getNext(str, next){
+
+    next[0] = -1;
+    let k = -1;
+    for(let i = 1; i < str.length; i++){
+
+        if(str[i] == str[k + 1]){
+            k++;
+        }
+        else{
+
+            while(k != -1 && str[i] != str[k+1]){
+                k = next[k];
+            }
+            next[i] = k;
+
+        }
+
+    }
+
+}
+function kmp(str, matchStr){
+
+    let next = [],k = -1;
+    getNext(matchStr);
+    for(let i = 0; i < str.length; i++){
+
+        if(str[i] == matchStr[k + 1]){
+            k++;
+            if(k == matchStr.length - 1){
+                return i -k ;
+            }
+        }
+        else{
+
+            while(k != -1 && matchStr[k + 1] != str[i]){
+                k = next[k];
+            }
+
+        }
 
     }
 
