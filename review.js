@@ -179,7 +179,7 @@ function combineStr3(str, num, pre, arr){
 如果不是求字符的所有排列，而是求字符的所有组合，应该怎么办呢？当输入的字符串中含有相同的字符串时，相同的字符交换位置是不同的排列，但是同一个组合。
 举个例子，如果输入abc，它的组合有a、b、c、ab、ac、bc、abc。
  */
-combine4("abc", [])
+combine4("abcd", [])
 function combine4(str, arr){
 
     for(let len = 1 ; len <= str.length; len++){
@@ -197,7 +197,7 @@ function getStr(str, num, pre, arr){
     }
     else{
         for(let len = 0; len <= str.length - num; len++){
-            getStr(str.substr(0, len) + str.substr(len + 1), num - 1, pre + str.charAt(len), arr)
+            getStr(str.substr(len + 1), num - 1, pre + str.charAt(len), arr)
         }
     }
 
@@ -245,7 +245,7 @@ function findFirst1(str){
 /*
 * * 输入一个字符串，输出该字符串中对称的子字符串的最大长度。比如输入字符串“google”，由于该字符串里最长的对称子字符串是“goog”，因此输出4。
 * */
-getPardim("google")
+getPardim("12123432")
 function getPardim(str){
 
     if(str.length == 0)
@@ -259,7 +259,7 @@ function getPardim(str){
     for(let len = 1; len < newStr.length; len++){
         p[len] = xm > len?  Math.min(xm - len, 2 * id - len) : 1;
 
-        while(newStr[ len + p[len]] == newStr[len - p[len]]){
+        while(len + p[len] < newStr.length && newStr[ len + p[len]] == newStr[len - p[len]]){
             p[len]++;
         }
 
@@ -967,3 +967,68 @@ function getPath(root, sum){
     }
 
 }
+
+/*实现一个eventEmitter*/
+var EventEmitter= function(){
+  this._eventListeners = {};
+}
+
+EventEmitter.prototype = {
+  constructor:EventEmitter,
+  on:function(evt, handler, context){
+
+    if(this._eventListeners[evt] == undefined){
+      this._eventListeners[evt] = [];
+    }
+    else{
+
+    }
+    let obj = {
+      handler :handler,
+      context:context
+    }
+    this._eventListeners.push(obj);
+    return obj;
+  },
+  off(evt, handler, context){
+    let arr = this._eventListeners[evt];
+    for(let len = 0; len < arr.length; len++){
+      if(arr[len].handler === handler && arr[len].context == context){
+        arr.splice(len,1);
+      }
+    }
+  },
+  emit : function(type, args){
+    let handlers = this._eventListeners[type];
+    for(let len = 0; len < handlers.length; len++){
+      handlers[len].handler.apply(this, args)
+    }
+  }
+}
+
+/*
+给出 n 代表生成括号的对数，请你写出一个函数，使其能够生成所有可能的并且有效的括号组合。
+ */
+var generateParenthesis = function(n,left, right, pre, arr){
+    if(n == 0)return "";
+
+    if(left == right){
+
+        if(left < n){
+            generateParenthesis(n, left + 1, right, pre + "(", arr);
+        }
+        else{
+            arr.push(pre)
+        }
+
+    }
+    else if(left > right){
+
+      if(left < n){
+        generateParenthesis(left + 1, right, n, arr, pre + "(")
+      }
+      generateParenthesis(left, right + 1, n, arr,  pre + ")")
+    }
+
+}
+

@@ -43,3 +43,24 @@ function removeK(str, num){
     return arr.join("")
 
 }
+
+function removeK(arr, k){
+    if(arr.length == 0 || k == 0)
+        return arr;
+    let stack = [arr[0]], top = 0;
+    let index = 1;
+    while(index < arr.length){
+
+        if(stack[top] > arr[index]){
+            top--;
+            k--;
+        }
+        arr[top] = arr[index];
+        top++;
+        index++;
+
+    }
+    if(k != 0){
+        arr = arr.slice(0, arr.length - k)
+    }
+}
