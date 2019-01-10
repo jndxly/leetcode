@@ -1060,3 +1060,148 @@ function kmp(str, matchStr){
     }
 
 }
+
+/*js实现promise
+*
+* promise特点
+* var promise=new Promsie(function(resolve,rejec){
+    if(){
+        resolve(value);
+    }else{
+        reject(error);
+    }
+  })
+
+  .then(function(){
+    //回调执行成功之后的操作
+},function(){
+    //回调执行失败之后的操作，可以没有
+});
+*
+* */
+function PromiseM(){
+
+    this.status = "pending";
+
+    var process = arguments[0];
+    var that = this;
+    that.msg = "";
+
+    process(function(){
+
+        that.status = "resolve";
+        that.msg = arguments[0];
+
+    }, function(){
+        that.status = "reject";
+        that.msg= arguments[0]
+    })
+    return this;
+
+}
+PromiseM.prototype.then = function(){
+    if(this.status == 'resolve'){
+        arguments[0](this.msg);
+    }
+    else if(this.status == 1 && arguments.length >= 2){
+        arguments[1](this.msg);
+    }
+}
+
+function quickSort(arr){
+
+    if(arr.length <= 1) return arr;
+    var left = [], right = [];
+    let temp = arr[0];
+    for(let len = 1; len < arr.length; len++){
+        if(arr[len] > temp){
+            right.push(arr[len]);
+        }
+        else{
+            left.push(arr[len]);
+        }
+
+    }
+    return quickSort(left).concat([temp]).concat(quickSort(right))
+
+}
+
+/*
+定时器啥时候进入任务队列
+
+在单线程的Javascript引擎中，setTimeout()是如何运行的呢，这里就要提到浏览器内核中的事件循环模型了。简单的讲，在Javascript执行引擎之外，有一个任务队列，
+当在代码中调用setTimeout()方法时，
+注册的延时方法会交由浏览器内核其他模块（以webkit为例，是webcore模块）处理，当延时方法到达触发条件，即到达设置的延时时间时，这一延时方法被添加至任务队列里。
+这一过程由浏览器内核其他模块处理，与执行引擎主线程独立，执行引擎在主线程方法执行完毕，到达空闲状态时，会从任务队列中顺序获取任务来执行，这一过程是一个不断循环的过程，
+称为事件循环模型。
+当一个异步事件触发，它的回调函数先进入事件队列中排队，任务队列是一个先进先出的数据结构，排在前面的事件，一旦执行栈为空，优先被主线程读取到栈中执行。
+主线程从任务队列中读取事件，这个过程循环不断，所以整个的这种运行机制又称为Event loop。
+ */
+
+function bind(){
+
+    let _args = Array.prototype.slice.call(arguments, 1);
+    let context = arguments[0], self = this;
+
+    return function(){
+        _args.push(...arguments);
+        self.apply(context, _args)
+    }
+
+}
+
+/*
+js中的new()到底做了些什么？？
+要创建 Person 的新实例，必须使用 new 操作符。以这种方式调用构造函数实际上会经历以下 4
+个步骤：
+(1) 创建一个新对象；
+(2) 将构造函数的作用域赋给新对象（因此 this 就指向了这个新对象） ；
+(3) 执行构造函数中的代码（为这个新对象添加属性） ；
+(4) 返回新对象
+ */
+
+
+/*
+同样是检测对象obj调用toString方法（关于toString()方法的用法的可以参考toString的详解），obj.toString()的结果和Object.prototype.toString.call(obj)的结果不一样，这是为什么？
+
+ 这是因为toString为Object的原型方法，而Array ，function等类型作为Object的实例，都重写了toString方法。
+ 不同的对象类型调用toString方法时，根据原型链的知识，调用的是对应的重写之后的toString方法（function类型返回内容为函数体的字符串，Array类型返回元素组成的字符串.....）
+ ，而不会去调用Object上原型toString方法（返回对象的具体类型），所以采用obj.toString()不能得到其对象类型，只能将obj转换为字符串类型；
+ 因此，在想要得到对象的具体类型时，应该调用Object上原型toString方法。
+ */
+
+
+/*二维数组去重*/
+function repeat(){
+
+    var arr = [["aa","bb","cc"],["aa","bb","cc"],["b","b","v"]];
+    var hash = {};
+    var result = [];
+    for(var i = 0, len = arr.length; i < len; i++){
+        if(!hash[arr[i]]){
+            result.push(arr[i]);
+            hash[arr[i]] = true;
+        }
+    }
+}
+
+function repeat1(){
+    var arr = [["aa","bb","cc"],["aa","bb","cc"],["b","b","v"]];
+    var hash = {};
+    var result = [];
+
+    for(let i = 0; i < arr.length; i++){
+        let item = [];
+        for(let j = 0; j < arr[i].length; j++){
+            if(hash[arr[i][j]]){
+
+            }
+            else{
+                item.push(arr[i][j]);
+                hash[arr[i][j]] = true;
+            }
+        }
+        result.push(item);
+    }
+
+}
