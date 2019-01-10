@@ -789,6 +789,8 @@ add(1, 2, 3)(4) = 10;
 add(1)(2)(3)(4)(5) = 15;
 
  */
+
+
 function add() {
     // 第一次执行时，定义一个数组专门用来存储所有的参数
     var _args = [].slice.call(arguments);
@@ -852,7 +854,7 @@ function debounce(method,delay){
 function resizehandler(){
     console.log(++n);
 }
-window.onresize=debounce(resizehandler,500);
+// window.onresize=debounce(resizehandler,500);
 
 /*
 * 函数预先设定一个执行周期，当调用动作的时刻大于等于执行周期则执行该动作，然后进入下一个新周期
@@ -867,7 +869,7 @@ function throttle(method,duration){
         }
     }
 }
-window.onresize=throttle(resizehandler,500);
+// window.onresize=throttle(resizehandler,500);
 
 
 
