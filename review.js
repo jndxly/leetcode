@@ -197,7 +197,7 @@ function getStr(str, num, pre, arr){
     }
     else{
         for(let len = 0; len <= str.length - num; len++){
-            getStr( str.substr(len + 1), num - 1, pre + str.charAt(len), arr)
+            getStr(str.substr(0, len) + str.substr(len + 1), num - 1, pre + str.charAt(len), arr)
         }
     }
 
@@ -536,7 +536,7 @@ function coinExchange(cash, m){
     if(cash == 0){
         return 1;
     }
-    if(cash <0 || m == 0){
+    if(cash <0 | m == 0){
         return 0;
     }
     return coinExchange(cash, m - 1) + coinExchange(cash - dim[m - 1], m)
@@ -644,7 +644,7 @@ function tripleSwap(arr){
 有个长度为2n的数组{a1,a2,a3,...,an,b1,b2,b3,...,bn}，希望排序后{a1,b1,a2,b2,....,an,bn}，请考虑有无时间复杂度o(n)，空间复杂度0(1)的解法。
  */
 var arr = [];
-for(var len = 0; len < 60; len++){
+for(var len = 0; len < 20; len++){
     arr[len] = len ;
 }
 testArr(arr)
@@ -710,25 +710,17 @@ function getRepeat(arr){
 找出数组中，数都是两两重复的，有两个是唯一出现的，找出来
 * */
 getRepeat3([1,1,2,2,3,3,4,5])
-function findFristBitIs1(num){
-    let index = 1;
-    while( (index & num) != index){
-        index <<= 1;
-    }
-    return index;
-}
 function getRepeat3(arr){
 
     let hash = 0;
     for(let len = 0; len < arr.length; len++){
         hash ^= arr[len];
     }
-    let firstBitIs1 = findFristBitIs1(hash);
     let hash1 = 0;
     let hash2 = 0;
     for(let len = 0; len < arr.length; len++){
 
-        if(firstBitIs1 & arr[len]){
+        if(hash & arr[len]){
             hash1 ^= arr[len];
         }
         else{
@@ -797,6 +789,8 @@ add(1, 2, 3)(4) = 10;
 add(1)(2)(3)(4)(5) = 15;
 
  */
+
+
 function add() {
     // 第一次执行时，定义一个数组专门用来存储所有的参数
     var _args = [].slice.call(arguments);
@@ -860,7 +854,7 @@ function debounce(method,delay){
 function resizehandler(){
     console.log(++n);
 }
-this.onresize=debounce(resizehandler,500);
+// window.onresize=debounce(resizehandler,500);
 
 /*
 * 函数预先设定一个执行周期，当调用动作的时刻大于等于执行周期则执行该动作，然后进入下一个新周期
@@ -875,7 +869,7 @@ function throttle(method,duration){
         }
     }
 }
-this.onresize=throttle(resizehandler,500);
+// window.onresize=throttle(resizehandler,500);
 
 
 
