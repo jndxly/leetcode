@@ -710,17 +710,25 @@ function getRepeat(arr){
 找出数组中，数都是两两重复的，有两个是唯一出现的，找出来
 * */
 getRepeat3([1,1,2,2,3,3,4,5])
+function findFristBitIs1(num){
+    let index = 1;
+    while( (index & num) != index){
+        index <<= 1;
+    }
+    return index;
+}
 function getRepeat3(arr){
 
     let hash = 0;
     for(let len = 0; len < arr.length; len++){
         hash ^= arr[len];
     }
+    let firstBitIs1 = findFristBitIs1(hash);
     let hash1 = 0;
     let hash2 = 0;
     for(let len = 0; len < arr.length; len++){
 
-        if(hash & arr[len]){
+        if(firstBitIs1 & arr[len]){
             hash1 ^= arr[len];
         }
         else{
@@ -1197,5 +1205,49 @@ function repeat1(){
         }
         result.push(item);
     }
+
+}
+
+/*
+应用层
+表示层
+会话层
+传输层  TCP\UDP  协议端口号
+网络层 IP、IGMP ARP RARP
+数据链路层  MAC地址
+物理层
+ */
+
+
+/*js 继承*/
+function Parent(name){
+    this.name = name || 'parent';
+    this.sleep = function(){
+        console.log("sleep");
+    }
+}
+
+Parent.prototype.eat = function(){
+    console.log("eat");
+}
+
+
+function object(base){
+
+    function F(){};
+    F.prototype = base;
+    return new F();
+
+}
+
+function inheritProtoype(sub, base){
+
+    // var p = object(base);
+
+    function F(){};
+    F.prototype = base.prototype;
+    var p = new F();
+    p.constructor = sub;
+    sub.prototype = p;
 
 }
