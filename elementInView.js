@@ -8,6 +8,9 @@ function getElementOffset(ele){
     ele = ele.offsetParent;
 
   }
+
+
+
   return {
     left:left,
     top:top
@@ -23,3 +26,6 @@ if(obj.top + ele.clientHeight > window.pageYOffset
 ){
 
 }
+
+let eleRect = ele.getBoundingClientRect();
+if(eleRect.top <= window.innerHeight && eleRect.bottom >= 0 && eleRect.left <= window.innerWidth && eleRect.right >= 0)
