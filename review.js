@@ -1018,6 +1018,7 @@ function ajax(url,type,param,async,header) {
     };
 }
 
+
 function getNext(str, next){
 
     next[0] = -1;
@@ -1026,6 +1027,7 @@ function getNext(str, next){
 
         if(str[i] == str[k + 1]){
             k++;
+            next[i] = k;
         }
         else{
 
@@ -1081,6 +1083,8 @@ function kmp(str, matchStr){
 });
 *
 * */
+
+
 function PromiseM(){
 
     this.status = "pending";
@@ -1251,3 +1255,41 @@ function inheritProtoype(sub, base){
     sub.prototype = p;
 
 }
+
+function Child(name){
+  Parent.call(this, name);
+}
+inheritProtoype(Child, Parent)
+
+
+
+/*
+原生JS创建这样的 dom 结构 < div id='hello'> < p class='textToMark'>hdslakddnska8das< p>< /div>
+ */
+function createElement() {
+  var body = document.body;
+
+  var fragment = document.createDocumentFragment()
+
+  var div = document.createElement('div')
+  div.setAttribute('id', 'hello')
+
+  fragment.appendChild(div)
+
+  var p = document.createElement('p')
+  p.className = 'textToMark'
+  p.innerHTML = 'hdslakddnska8das'
+
+  div.appendChild(p);
+  body.appendChild(fragment)
+}
+createElement();
+
+
+/*
+函数式组件
+函数组件看似只是一个返回值是DOM结构的函数，其实它的背后是无状态组件（Stateless Components）的思想。函数组件中，你无法使用State，也无法使用组件的生命周期方法，这就决定了函数组件都是展示性组件（Presentational Components），接收Props，渲染DOM，而不关注其他逻辑。
+
+函数组件中没有this。所以你再也不需要考虑this带来的烦恼。而在类组件中，你依然要记得绑定this这个琐碎的事情。如示例中的sayHi。
+
+ */
