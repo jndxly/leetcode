@@ -1084,6 +1084,62 @@ function kmp(str, matchStr){
 *
 * */
 
+class PromiseN{
+
+    constructor(){
+
+        this.staus = "pending";
+        let that = this;
+        this.msg = "";
+        this.process = arguments[0];
+        this.process(function(){
+            that.status = "resolve";
+            that.msg = arguments[0];
+        },function(){
+            that.status = "reject";
+            that.msg = arguments[0]
+        })
+
+    }
+
+    then(){
+        if(this.status == "resolve"){
+            arguments[0](this.msg);
+        }
+        else if(this.status == "reject"){
+            arguments[1](this.msg);
+        }
+    }
+
+    static all(arr){
+        if(arr.length == 0){
+            throw new TypeError("Promise.all need Array object as argument");
+        }
+
+        return new PromiseM(function(resolve, reject){
+            let count = arr.length;
+            let result = [];
+
+            for(let key in arr){
+                let p = arr[key];
+                p.then(function(v){
+                    count--;
+                    result[key] = v;
+                    if(count == 0){
+                        resolve(result);
+                    }
+                },function(){
+                    reject();
+                })
+            }
+
+        })
+
+
+    }
+
+}
+
 
 function PromiseM(){
 
