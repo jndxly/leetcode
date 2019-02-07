@@ -71,7 +71,7 @@ function findMideaNum(arr1, arr2){
     let left1,right1, left2, right2;
     let mid = len1+len2, mid1, mid2;
     while(left < right){
-
+        mid1 = Math.floor((left + right) / 2);
         mid2 = mid - mid1;
         left1 = mid1 == 0? Number.NEGATIVE_INFINITY:arr1[Math.floor((mid1-1) / 2)];
         right1 = mid1 == 2*len1?Number.POSITIVE_INFINITY:arr2[Math.floor(mid1 / 2)];
