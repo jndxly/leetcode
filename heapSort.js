@@ -1,11 +1,11 @@
 
 function buildHeap(arr){
 
-    for(let index = arr.length /2; index > =0;index--){
+    for(let index = arr.length /2; index >=0;index--){
 
-        headAdjust(arr, index, arr.length);
+    headAdjust(arr, index, arr.length);
 
-    }
+  }
 
 }
 
