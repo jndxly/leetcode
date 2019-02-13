@@ -14,7 +14,6 @@ function getUglyNumber(index){
   res[0] = 1;
   let t2 = 0, t3 = 0, t5 = 0;
   for(let len = 1; len < index; len++){
-
     res[len] = Math.min(res[t2] * 2, Math.min(res[t3] * 3, res[t5] * 5));
     if(res[t2] * 2 == res[len]) t2++;
     if(res[t3] * 3 == res[len]) t3++;
@@ -25,3 +24,4 @@ function getUglyNumber(index){
 
 
 }
+getUglyNumber(7)
