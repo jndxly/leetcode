@@ -992,7 +992,7 @@ function ajax(url,type,param,async,header) {
             xhr = new ActiveXObject("Microsoft.XMLHTTP")
         }
         xhr.onreadystatechange = function(){
-            if(xhr.state == 4){
+            if(xhr.readyState == 4){
                 if(xhr.status >= 200 || xhr.status < 300){
 
                 }
@@ -1269,9 +1269,9 @@ function repeat1(){
 }
 
 /*
-应用层
-表示层
-会话层
+应用层 协议
+表示层 数据的表示、安全、压缩
+会话层 建立、管理会话
 传输层  TCP\UDP  协议端口号
 网络层 IP、IGMP ARP RARP
 数据链路层  MAC地址
@@ -1344,7 +1344,8 @@ createElement();
 
 /*
 函数式组件
-函数组件看似只是一个返回值是DOM结构的函数，其实它的背后是无状态组件（Stateless Components）的思想。函数组件中，你无法使用State，也无法使用组件的生命周期方法，这就决定了函数组件都是展示性组件（Presentational Components），接收Props，渲染DOM，而不关注其他逻辑。
+函数组件看似只是一个返回值是DOM结构的函数，其实它的背后是无状态组件（Stateless Components）的思想。函数组件中，你无法使用State，
+也无法使用组件的生命周期方法，这就决定了函数组件都是展示性组件（Presentational Components），接收Props，渲染DOM，而不关注其他逻辑。
 
 函数组件中没有this。所以你再也不需要考虑this带来的烦恼。而在类组件中，你依然要记得绑定this这个琐碎的事情。如示例中的sayHi。
 
