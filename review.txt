@@ -1,0 +1,18 @@
+1. mobx
+1.1 observable autorun
+observable可以用来观测一个数据，这个数据可以数字、字符串、数组、对象等类型(相关知识点具体会在后文中详述)，而当观测到的数据发生变化的时候，
+如果变化的值处在autorun中，那么autorun就会自动执行。
+上例中的autorun函数中，只对value值进行了操作，而并没有number值的什么事儿，所以number.set(101)这步并不会触发autorun，只有value的变化才触发了autorun
+
+1.2 计算属性——computed
+假如现在我们一个数字，但我们对它的值不感兴趣，而只关心这个数组是否为正数。这个时候我们就可以用到computed这个属性了。
+
+1.3 action，runInAction和严格模式（useStrict）
+action只能影响正在运行的函数，而无法影响当前函数调用的异步操作
+如果你使用async function来处理业务，那么我们可以使用runInAction这个API来解决之前的问题。
+
+1.4 关于@observer的一些说明
+    通常，在和Mobx数据有关联的时候，你需要给你的React组件加上@observer，你不必太担心性能上的问题，
+    加上这个@observer不会对性能产生太大的影响，而且@observer还有一个类似于pure render的功能，甚至能起到性能上的一些优化。
+
+1.5 在添加@observer后，你的组件会多一个生命周期componentWillReact。当组件内被observable观测的数据改变后，就会触发这个生命周期。
