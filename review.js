@@ -1350,3 +1350,22 @@ createElement();
 函数组件中没有this。所以你再也不需要考虑this带来的烦恼。而在类组件中，你依然要记得绑定this这个琐碎的事情。如示例中的sayHi。
 
  */
+
+/*
+@keyframe rotate{
+    0%{
+        transform:rotate(0);
+    }
+    50%{
+        transform:rotate(200deg)
+    }
+    100%{
+        transform:rotate(0)
+    }
+}
+.rotate{
+    transition:0.5s;
+    transform-origin:30px 30px;
+    animation:rotate 10s linear infinite;
+}
+*/
