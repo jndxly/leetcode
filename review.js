@@ -1386,3 +1386,85 @@ http2.0是基于1999年发布的http1.0之后的首次更新。
     animation:rotate 10s linear infinite;
 }
 */
+
+/*
+Viewport 基础
+一个常用的针对移动网页优化过的页面的 viewport meta 标签大致如下：
+
+<meta name=”viewport” content=”width=device-width, initial-scale=1, maximum-scale=1″>
+
+width：控制 viewport 的大小，可以指定的一个值，如果 600，或者特殊的值，如 device-width 为设备的宽度（单位为缩放为 100% 时的 CSS 的像素）。
+height：和 width 相对应，指定高度。
+initial-scale：初始缩放比例，也即是当页面第一次 load 的时候缩放比例。
+maximum-scale：允许用户缩放到的最大比例。
+minimum-scale：允许用户缩放到的最小比例。
+user-scalable：用户是否可以手动缩放
+ */
+
+/*
+模拟js 原生 call
+ */
+Function.prototype.$call = function(target){
+    target = target || window;
+    let args = [];
+    target.fn = this;
+    args = Array.prototype.slice.call(arguments, 1);
+    let result = target.fn(args.join(","));
+    delete target.fn;
+    return result;
+}
+
+/*单行文本溢出
+p{
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  }
+  多行文本溢出
+  p{
+isplay: -webkit-box; //必须结合的属性 ，将对象作为弹性伸缩盒子模型显示 。
+-webkit-box-orient; //必须结合的属性 ，设置或检索伸缩盒对象的子元素的排列方式 。
+text-overflow: ellipsis; //可以用来多行文本的情况下，用省略号“…”隐藏超出范围的文本 。
+overflow : hidden;
+text-overflow: ellipsis;
+display: -webkit-box;
+-webkit-line-clamp: 2;
+-webkit-box-orient: vertical;
+}
+
+
+  //BFC
+  /*
+  形成BFC的条件
+
+      1、浮动元素，float 除 none 以外的值；
+      2、定位元素，position（absolute，fixed）；
+      3、display 为以下其中之一的值 inline-block，table-cell，table-caption；
+      4、overflow 除了 visible 以外的值（hidden，auto，scroll）；
+   */
+
+
+//对象的扁平化
+var result = {};
+function recurse(cur, prop) {
+  if (Object(cur) !== cur) {
+    result[prop] = cur;
+  } else if (Array.isArray(cur)) {
+    for (var i = 0, l = cur.length; i < l; i++)
+      recurse(cur[i], prop + "[" + i + "]");
+    if (l == 0)
+      result[prop] = [];
+  } else {
+    var isEmpty = true;
+    for (var p in cur) {
+      isEmpty = false;
+      recurse(cur[p], prop ? prop + "." + p : p);
+    }
+    if (isEmpty && prop)
+      result[prop] = {};
+  }
+}
+recurse(data, "");
+
+
+
