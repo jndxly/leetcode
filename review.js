@@ -1367,3 +1367,22 @@ http2.0是基于1999年发布的http1.0之后的首次更新。
 
 服务器端推送
  */
+
+/*
+@keyframe rotate{
+    0%{
+        transform:rotate(0);
+    }
+    50%{
+        transform:rotate(200deg)
+    }
+    100%{
+        transform:rotate(0)
+    }
+}
+.rotate{
+    transition:0.5s;
+    transform-origin:30px 30px;
+    animation:rotate 10s linear infinite;
+}
+*/
