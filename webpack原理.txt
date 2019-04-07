@@ -1,0 +1,51 @@
+
+1. 核心对象 Compilation
+compiler.run 后首先会触发 compile ，这一步会构建出 Compilation 对象：
+这个对象有两个作用，一是负责组织整个打包过程，包含了每个构建环节及输出环节所对应的方法，
+可以从图中看到比较关键的步骤，如
+ addEntry() , //通过 options 对象的 entry 字段找到我们的入口js文件
+ _addModuleChain() , //一是根据模块的类型获取对应的模块工厂并创建模块，二是构建模块。
+ buildModule() ,
+ seal() ,
+createChunkAssets()
+(在每一个节点都会触发 webpack 事件去调用各插件)。二是该对象内部存放着所有 module ，
+chunk，生成的 asset 以及用来生成最后打包文件的 template 的信息。
+
+2. 编译与构建主流程
+在创建 module 之前，Compiler 会触发 make，并调用 Compilation.addEntry 方法，
+通过 options 对象的 entry 字段找到我们的入口js文件。之后，在 addEntry 中调用私有方法 _addModuleChain ，
+这个方法主要做了两件事情。一是根据模块的类型获取对应的模块工厂并创建模块，二是构建模块。
+
+
+3.构建模块作为最耗时的一步，又可细化为三步：
+
+  1)调用各 loader 处理模块之间的依赖
+
+  webpack 提供的一个很大的便利就是能将所有资源都整合成模块，不仅仅是 js 文件。
+  所以需要一些 loader ，比如 url-loader ， jsx-loader ， css-loader 等等来让我们可以直接在源文件中引用各类资源。
+  webpack 调用 doBuild() ，对每一个 require() 用对应的 loader 进行加工，最后生成一个 js module。
+
+
+  2)调用 acorn 解析经 loader 处理后的源文件生成抽象语法树 AST
+
+  3)遍历 AST，构建该模块所依赖的模块
+
+    对于当前模块，或许存在着多个依赖模块。当前模块会开辟一个依赖模块的数组，在遍历 AST 时，
+    将 require() 中的模块通过 addDependency() 添加到数组中。当前模块构建完成后，
+    webpack 调用 processModuleDependencies 开始递归处理依赖的 module，接着就会重复之前的构建步骤。
+
+
+3.
+  构建细节
+  module 是 webpack 构建的核心实体，也是所有 module 的 父类，它有几种不同子类：NormalModule , MultiModule ,
+   ContextModule , DelegatedModule 等。但这些核心实体都是在构建中都会去调用对应方法，也就是 build() 。
+   来看看其中具体做了什么：
+
+4.打包输出
+  在所有模块及其依赖模块 build 完成后，webpack 会监听 seal 事件调用各插件对构建后的结果进行封装，
+  要逐次对每个 module 和 chunk 进行整理，生成编译后的源码，合并，拆分，生成 hash 。
+  同时这是我们在开发时进行代码优化和功能添加的关键环节。
+
+5.生成最终 assets
+  在封装过程中，webpack 会调用 Compilation 中的 createChunkAssets 方法进行打包后代码的生成。
+  createChunkAssets 流程如下
