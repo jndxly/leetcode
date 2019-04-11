@@ -1317,7 +1317,18 @@ function Child(name){
 }
 inheritProtoype(Child, Parent)
 
-
+/*webpac compiler的继承
+*
+* var Tapable = require("tapable");
+*
+* function Compiler(){
+* Tapable.call(this);
+* }
+*
+* Compiler.prototype = Object.create(Tapable.prototype)
+*
+*
+* */
 
 /*
 原生JS创建这样的 dom 结构 < div id='hello'> < p class='textToMark'>hdslakddnska8das< p>< /div>
