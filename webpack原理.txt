@@ -49,3 +49,27 @@ chunk，生成的 asset 以及用来生成最后打包文件的 template 的信�
 5.生成最终 assets
   在封装过程中，webpack 会调用 Compilation 中的 createChunkAssets 方法进行打包后代码的生成。
   createChunkAssets 流程如下
+
+
+
+
+  二。几个关键节段对应的事件分别是：
+  entry-option 初始化option
+
+  run 开始编译
+
+  make 从entry开始递归的分析依赖，对每个依赖模块进行build
+
+  before-resolve - after-resolve 对其中一个模块位置进行解析
+
+  build-module 开始构建 (build) 这个module,这里将使用文件对应的loader加载
+
+  normal-module-loader 对用loader加载完成的module(是一段js代码)进行编译,用 acorn 编译,生成ast抽象语法树。
+
+  program 开始对ast进行遍历，当遇到require等一些调用表达式时，触发call require事件的handler执行，收集依赖，并。如：AMDRequireDependenciesBlockParserPlugin等
+
+  seal 所有依赖build完成，下面将开始对chunk进行优化，比如合并,抽取公共模块,加hash
+
+  bootstrap 生成启动代码
+
+  emit 把各个chunk输出到结果文件
