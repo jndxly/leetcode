@@ -16,3 +16,19 @@ action只能影响正在运行的函数，而无法影响当前函数调用的�
     加上这个@observer不会对性能产生太大的影响，而且@observer还有一个类似于pure render的功能，甚至能起到性能上的一些优化。
 
 1.5 在添加@observer后，你的组件会多一个生命周期componentWillReact。当组件内被observable观测的数据改变后，就会触发这个生命周期。
+
+2.umd模式
+(function(factory){
+    if(typeof define === 'function' && define.amd){
+        define(['jquery'], factory)
+    }
+    else if(typeof exports === 'object'){
+        factory(require('jquery'))
+    }
+    else{
+        factory(jQuery);
+    }
+}(function(jquery){
+return f;
+})
+}
