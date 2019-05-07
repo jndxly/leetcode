@@ -1,0 +1,71 @@
+1.盒子模型
+CSS css盒子模型 又称框模型 (Box Model) ，包含了元素内容（content）、内边距（padding）、边框（border）、外边距（margin）
+几个要素。
+
+两个上下方向相邻的元素框垂直相遇时，外边距会合并，合并后的外边距的高度等于两个发生合并的外边距中较高的那个边距值
+
+box-sizing属性介绍
+box-sizing属性是用户界面属性里的一种，之所以介绍它，是因为这个属性跟盒子模型有关，而且在css reset中有可能会用到它。
+box-sizing : content-box|border-box|inherit;
+1) content-box ,默认值，可以使设置的宽度和高度值应用到元素的内容框。盒子的width只包含内容。
+　　即总宽度=margin+border+padding+width
+(2) border-box , 设置的width值其实是除margin外的border+padding+element的总宽度。盒子的width包含border+padding+内容
+　　　　即总宽度=margin+width
+很多CSS框架，都会对盒子模型的计算方法进行简化。
+
+2.垃圾回收
+Js具有自动垃圾回收机制。垃圾收集器会按照固定的时间间隔周期性的执行。
+JS垃圾回收方式
+Javascript采用标记-清除为主（高版本浏览器），引用计数为辅的策略（低版本IE）
+1.    标记清除
+工作原理：是当变量进入环境时，将这个变量标记为“进入环境”。当变量离开环境时，则将其标记为“离开环境”。标记“离开环境”的就回收内存。
+
+工作流程：
+
+    1.    垃圾回收器，在运行的时候会给存储在内存中的所有变量都加上标记。
+
+    2.    去掉环境中的变量以及被环境中的变量引用的变量的标记。
+
+    3.    再被加上标记的会被视为准备删除的变量。
+
+    4.    垃圾回收器完成内存清除工作，销毁那些带标记的值并回收他们所占用的内存空间。
+
+2.    引用计数
+工作原理：跟踪记录每个值被引用的次数。
+
+工作流程：
+
+    1.    声明了一个变量并将一个引用类型的值赋值给这个变量，这个引用类型值的引用次数就是1。
+
+    2.    同一个值又被赋值给另一个变量，这个引用类型值的引用次数加1.
+
+    3.    当包含这个引用类型值的变量又被赋值成另一个值了，那么这个引用类型值的引用次数减1.
+
+    4.    当引用次数变成0时，说明没办法访问这个值了。
+
+    5.    当垃圾收集器下一次运行时，它就会释放引用次数是0的值所占的内存
+
+3.eventLoop
+JavaScript语言为例，它是一种单线程语言，所有任务都在一个线程上完成。
+一旦遇到大量任务或者遇到一个耗时的任务，网页就会出现"假死"，因为JavaScript停不下来，也就无法响应用户的行为。
+
+在程序中设置两个线程：一个负责程序本身的运行，称为"主线程"；另一个负责主线程与其他进程（主要是各种I/O操作）的通信，
+被称为"Event Loop线程"（可以译为"消息线程"）
+所以主线程得以运行更多的任务，这就提高了效率。
+这种运行方式称为"异步模式"（asynchronous I/O）或"非堵塞模式"（non-blocking mode）。
+4.双向绑定
+ var obj = {};
+Object.defineProperty(obj,'hello',{
+enumerable: true,
+configurable: true,
+get: function() { return document.getElementById('aa').value; },
+set:function(val){
+document.getElementById('bb').innerHTML = val*obj.hello2;
+}
+});
+
+document.getElementById('aa').onkeyup = function(){
+ obj.hello = this.value;
+};
+
+obj.hello = "";
