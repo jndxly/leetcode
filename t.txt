@@ -69,3 +69,148 @@ document.getElementById('aa').onkeyup = function(){
 };
 
 obj.hello = "";
+
+5.从输入URL到浏览器显示页面发生了什么
+    1)解析URL 2)DNS解析 3)浏览器与网站建立TCP连接（三次握手） 4)请求和传输数据
+    5)浏览器渲染页面. 构造dom树、构建渲染树，根据dom树和css树绘制渲染树
+
+6.前端如何跨域拿到cookie
+比如本地域名是aaa.com，但是接口用的是bbb.com的，所以现在后端传回来的cookie也在bbb.com上面
+由于浏览器限制，前端不能拿到跨域 cookie 。 你需要让后端加上请求头
+
+Access-Control-Allow-Origin: http://aaa.com
+Access-Control-Allow-Credentials: true
+Access-Control-Allow-Headers: Content-Type, Set-Cookie, *
+
+6.
+async function async1() {
+    console.log("async1 start");
+    await async2();
+    console.log("async1 end");
+}
+
+async function async2() {
+    console.log("async2");
+}
+
+console.log("script start");
+
+setTimeout(function() {
+    console.log("setTimeout");
+}, 0);
+
+async1();
+
+new Promise(function(resolve) {
+    console.log("promise1");
+    resolve();
+}).then(function() {
+    console.log("promise2");
+});
+
+console.log("script end");
+
+输出：
+console.log("script end");
+script start
+async1 start
+async2
+promise1
+script end
+async1 end
+promise2
+setTimeout
+
+6. 获取url参数
+function getQueryString(name) {
+        var reg = new RegExp("[?|&]" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.match(reg);
+        return r ? decodeURIComponent(r[1]) : '';
+    }
+
+7.获取cookie
+function getCookieByName(name) {
+    for (let cookie of document.cookie.split('; ')) {
+        const [key, value] = cookie.split('=')
+        if (key === name) {
+            return decodeURIComponent(value)
+        }
+    }
+
+    return ''
+}
+function getCookies() {
+    let cookies = {}
+
+    for (let cookie of document.cookie.split('; ')) {
+        let [name, value] = cookie.split('=')
+        cookies[name] = decodeURIComponent(value)
+    }
+
+    return cookies
+}
+
+function addCookie(name, value, days) {
+    let expires
+    if (days) {
+        let date = new Date()
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000))
+        expires = '; expires=' + date.toUTCString()
+    } else {
+        expires = ''
+    }
+    document.cookie = name + '=' + encodeURIComponent(value) + expires + '; path=/'
+}
+
+function removeCookieByName(name) {
+    addCookie(name, '', -1)
+}
+
+8.CORS是W3c工作草案，它定义了在跨域访问资源时浏览器和服务器之间如何通信。
+CORS背后的基本思想是使用自定义的HTTP头部允许浏览器和服务器相互了解对方，从而决定请求或响应成功与否。
+  同源策略：是浏览器最核心也最基本的安全功能；
+  同源指的是：同协议，同域名和同端口。精髓：认为自任何站点装载的信赖内容是不安全的。
+  当被浏览器半信半疑的脚本运行在沙箱时，它们应该只被允许访问来自同一站点的资源，
+  而不是那些来自其它站点可能怀有恶意的资源；
+
+  Access-Control-Allow-Origin:指定授权访问的域
+  Access-Control-Allow-Methods：授权请求的方法（GET, POST, PUT, DELETE，OPTIONS等)
+
+  CORS 对比 JSONP
+  都能解决 Ajax直接请求普通文件存在跨域无权限访问的问题
+
+  JSONP只能实现GET请求，而CORS支持所有类型的HTTP请求
+  使用CORS，开发者可以使用普通的XMLHttpRequest发起请求和获得数据，比起JSONP有更好的错误处理
+  JSONP主要被老的浏览器支持，它们往往不支持CORS，而绝大多数现代浏览器都已经支持了CORS
+
+9.js 堆栈
+1、基本类型
+
+         基本类型有Undefined、Null、Boolean、Number 和String。
+         这些类型在内存中分别占有固定大小的空间，他们的值保存在栈空间，我们通过按值来访问的。
+
+2、引用类型
+
+       引用类型，值大小不固定，栈内存中存放地址指向堆内存中的对象。是按引用访问的。
+       栈内存中存放的只是该对象的访问地址，在堆内存中为这个值分配空间。由于这种值的大小不固定，
+       因此不能把它们保存到栈内存中。但内存地址大小的固定的，因此可以将内存地址保存在栈内存中。
+        这样，当查询引用类型的变量时， 先从栈中读取内存地址， 然后再通过地址找到堆中的值。
+        对于这种，我们把它叫做按引用访问当我们看到一个变量类型是已知的，就分配在栈里面，比如INT,Double等。
+        其他未知的类型，比如自定义的类型，因为系统不知道需要多大，所以程序自己申请，这样就分配在堆里面。
+        基本类型大小固定，引用类型大小不固定，分开存放使得程序运行占用内存最小。
+
+3、栈内存：存放基本类型。 堆内存：存放引用类型（在栈内存中存一个基本类型值保存对象在堆内存中的地址，用于引用这个对象。）
+
+4、基本类型在当前执行环境结束时销毁，而引用类型不会随执行环境结束而销毁，只有当所有引用它的变量不存在时这个对象才被垃圾回收机制回收。
+
+10.电面：### 说明一下双向绑定原理.简单, 手撸过. 就是面试官问到如何对div进行双向绑定有点蒙圈.当然可以后面研究了一下, 发现可以用MutationObserver这个API, 有空我更新一下仓库的例子.
+
+   ### 如果是在HTTP环境下, 页面被插了恶意代码, 有广告, 怎么办这个问题很有意思, 那不外乎是如何识别, 还有识别到该怎么办.识别可以在客户端算下html的hash, 然后服务端给个接口返回这个html的实际hash, 两个hash不一致就是被插了恶意代码.如何去广告我的方案不是太好: 给所有合法的元素都加上id, 然后对DOM更新监听, 如果更新的DOM不带有这个id, 说明是广告, 直接去除.现在回想一下, 可以考虑遍历script标签, 有没有不在白名单内的, 但也不是个好方案
+
+   ### 混合应用开发, js与原生应用通信没做过, 不知道当然还有一些很基础的题目, 如XHR怎么用, HTTP的status code, method, 缓存相关的头, TCP, 首屏优化的方案, HTTP/2解决了什么问题. 这都很简单, 没什么好说的.
+
+   面试官的问题：
+
+   问## 一面 好巧, 就是电话面试那位. ### 又问了一次XHR怎么用 然后我表示在这之上的进行封装会更重要, 如实现promise, 设计中间件, 与方便的错误处理更加重要, 然后举了自己项目中的例子. ### jsonp如何判断加载是否成功 还真不知道, 只知道onLoad和onError, 但是onLoad触发未必是成功. 思考了一番script的其他事件, 没啥头绪, 表示要去MDN找找. 找了一下, 要和readyState配合一下判断 ### 上次后有没有了解过js和原生引用调用 行吧, 我是个喜欢总结失误的人. 简单说了一下最近准备的内容, 对jsbridge的理解, 还有最近的flutter等等. ### 然后指着笔试题上code review的问题问我什么原理 页面上有多个地方绑了window.onload, 然后是onload什么时候触发, 我记得不太清.
+
+   答### 算法 把一个链表第p到第q个节点的顺序反转 就是链表反转升级版, 没啥好说的, 生病了脑子迷糊, 强行冷静下来后好好写就出来了. 就是用解构赋值用于交换, 面试官似乎不太理解. 行吧, 用传统方式写一个swap, 给面试官解释清楚了, 问题不大.
