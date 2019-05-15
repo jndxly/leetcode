@@ -20,3 +20,33 @@ function reOrderArray(arr)
     return arr;
 
 }
+
+function reOrder(arr){
+
+    let odd = 0,temp, even = 0, newArr = arr.slice(0);
+    for(let len = 0; len < arr.length; len++){
+
+        if(arr[len] % 2 == 1){
+            temp = arr[odd];
+            arr[odd] = arr[len];
+            arr[len] = temp;
+            odd++;
+        }
+
+    }
+
+    for(let len = 0; len < newArr.length; len++){
+        if(newArr[len] %2 == 0){
+            temp = newArr[even];
+            newArr[even] = newArr[len];
+            newArr[len] = temp;
+            even++;
+        }
+    }
+
+    let subArr = newArr.slice(0, even);
+    let number = arr.length - odd;
+    arr.splice(odd, number, ...subArr)
+    return arr;
+}
+reOrder([1,2,3,4,5,6,7,8,9])
