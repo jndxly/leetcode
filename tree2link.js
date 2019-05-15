@@ -3,6 +3,36 @@
  * 要求不能创建任何新的结点，只能调整树中结点指针的指向。
  */
 
+function convert2Link(root){
+    if(!root){
+        return
+    }
+    let node = convert(root);
+    while(node.left){
+        node = node.left;
+    }
+    function convert(root){
+
+        if(!root) return null;
+        let pre = null, cur = null;
+        if(root.left){
+            cur = convert(node.left);
+        }
+        if(pre){
+            pre.right = cur;
+        }
+        cur.left = pre;
+        pre = cur;
+        if(root.right){
+            cur = convert(root.right);
+        }
+        return cur;
+    }
+    return node;
+
+
+}
+
 function inOrder(node, tmp){
 
   while(node != null){
