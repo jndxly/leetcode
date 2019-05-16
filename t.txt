@@ -238,6 +238,28 @@ web worker，web worker是运行在浏览器后台的js程序，他不影响主�
 13.webpack怎么实现打包拆包？js怎么实现鼠标拖拽？
 
 14.设计模式
+1） 发布者订阅者模式。 eventEimitter
+2）单例模式
+3）工厂模式。 通过参数的不同，创建不同的类或实例
+4）模块模式，封装大部分代码，只暴露必需接口
+/**
+ * 模块模式 = 封装大部分代码，只暴露必需接口
+ */
+var Car = (function(){
+    var name = '法拉利';
+    function sayName(){
+        console.log( name );
+    }
+    function getColor(name){
+        console.log( name );
+    }
+    return {
+        name: sayName,
+        color: getColor
+    }
+})();
+Car.name();
+Car.color('红色');
 
 15.一个M * N的方格，从左下角走到右上角有多少种走法？
 每次只能往右走，或者往上走。
