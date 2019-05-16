@@ -1315,7 +1315,8 @@ function inheritProtoype(sub, base){
 function Child(name){
   Parent.call(this, name);
 }
-inheritProtoype(Child, Parent)
+方法1:Child.prototype = Object.create(Parent.prototype);
+方法2：inheritProtoype(Child, Parent)
 
 /*webpac compiler的继承
 *
