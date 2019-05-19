@@ -275,3 +275,51 @@ Car.color('红色');
 
 
 所以2 * 2的格子有C(2+2, 2)=6中走法,  2* 3 的格子有 C(5, 2)=10种走法
+
+
+16.跨域，闭包，继承，ajax，以及用过的框架，计算机网络问的是tcp/ip的三次握手和四次挥手，
+
+17.面试官的问题：
+
+   问笔试题1：js里array，string的常用方法和属性等。
+
+   答基础题了，基础一定要打好。
+
+   问笔试题2：js编程，数组倒序。
+
+   答其实就是一个reverse方法啊！可我当时没准备，硬生生忘记了。
+
+   问笔试题3：http状态码有哪些，常用哪些？
+
+   答1开头到4开头都简单答了答。
+
+   问口头题1：网络安全了解哪些？
+
+   答xss，csrf了解一下。
+
+   问口头题2：浏览器缓存方式。 口头题3：跨域传输。 口头题4：突然问我做过最自豪的一件事情（懵*）。
+
+   答答了答cookie啊localstorage什么的。 答了jsonp，还有不同子域改document.domain，还有个H5新方法。
+
+18.1.为什么使用webpack（主要解决js的共享问题）；
+2.MVVN；3.为什么选择vueJavaScript1.js数组和对象的区别；
+2.数组和对象常用的方法；
+3.js判断isNumber(obj)，把某一个字符串转成数组，代码越健壮越好；
+4.ajax 的过程是怎样的(交互模型)；
+5.闭包；
+6.遍历DOM树的5种方法；
+var list = []; //声明一个数组list,用来存放元素的后代元素.
+ function getChildrens(ele){
+        var children = ele.children;
+        for(var i = 0 ; i < children.length; i++){
+          var child = children[i]; //child就是这个ele函数的一个个的子元素.
+          list.push(child); //把求出来的子元素存进list数组.
+          //求出来的子元素,调用函数求他的子元素.
+          getChildrens(child);
+        }
+      }
+       //求body的所有后代. //遍历整个dom树.
+      getChildrens(document.body);
+      console.log(list);
+7.JavaScript数据结构之链表的实现；
+8.Js里的危险和攻击数据结构CSSHTML。

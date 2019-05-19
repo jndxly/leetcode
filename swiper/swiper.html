@@ -1,0 +1,153 @@
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Test</title>
+    <script src="./js/jquery-2.2.3.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        ul {
+            height: 600px;
+            position: relative;
+        }
+
+        ul li {
+            float: left;
+            list-style-type: none;
+            height: 100%;
+            background-position: 50% 50%;
+            background-size: cover;
+        }
+
+        .one {
+            background-image: url("./img/1.jpg");
+        }
+
+        .two {
+            background-image: url("./img/2.jpg");
+        }
+
+        .three {
+            background-image: url("./img/3.jpg");
+        }
+
+        .four {
+            background-image: url("./img/2.jpg");
+        }
+
+        .dw {
+            position: absolute;
+            bottom: 5px;
+            width: 100%;
+            text-align: center;
+        }
+
+        ol {
+            list-style: none;
+            text-align: center;
+        }
+
+        ol li {
+            display: inline-block;
+            width: 22px;
+            height: 4px;
+            padding: 4px;
+            overflow: hidden;
+            text-indent: -999em;
+            cursor: pointer;
+            background-color: white;
+        }
+
+        .hasClass {
+            background-color: red;
+        }
+    </style>
+
+
+
+
+</head>
+<body>
+<div style="position: relative; overflow: hidden; height: 600px;">
+    @*有多少个li，ul的宽度就是 X00%*@
+    <ul style="width:600%; margin-left:-100%;">
+        @*第一张前面放最后一张，做轮播给人一种一直往一个方向的感觉*@
+        　　　　　　　　当显示这张图片时，ul就改变样式定位到第4张图片
+        <li class="four" style="width:16.6667%"></li>
+
+        @*这里的li标签宽度是16.66667%怎么来的， 只有4张图片做轮播，前后各加一张就是6张，
+        16.666667=100/6  如果是2张做轮播，一共4个li,   每个li的宽度就是25%*@
+
+
+        @*这4张图片做轮播*@
+        <li class="one" style="width:16.6667%"></li>
+        <li class="two" style="width:16.6667%"></li>
+        <li class="three" style="width:16.6667%"></li>
+        <li class="four" style="width:16.6667%"></li>
+
+        @*最后一张后面放第一张，做轮播给人一种一直往一个方向的感觉*@
+        当显示这张图片时，ul改变样式定位到第1张图片
+        <li class="one" style="width:16.6667%"></li>
+
+    </ul>
+    <nav class="dw">
+        <ol >
+            <li data-slide="0" class="hasClass"></li>
+            <li data-slide="1" class=""></li>
+            <li data-slide="2" class=""></li>
+            <li data-slide="3" class=""></li>
+
+        </ol>
+    </nav>
+</div>
+</body>
+</html>
+<script>
+
+  var mm;
+  function hh() {
+    //ul li做向左移动
+    $("ul").animate({ "left": "+=" + "-100%" }, 1200, function () {
+      var i;//得到第几张的值
+      $("ol li").each(function () {
+        if ($(this).attr("class") != "") {
+          i = $(this).attr("data-slide");
+        }
+      });
+      //因为是做过一次动画才来找值，所有当i为3时，ul是的left是 -400%,也就是第5张图片
+      i = parseInt(i) + 1;
+      //如果等于4 就重置下，               这里有4张做轮播就是4
+      if (parseInt(i) == 4) {
+        i = 0;
+        $("ul").css("left", "0%");  //重新定位下，ul的left已经重置了，因为图片没变，所以给人一个方向的假象
+      }
+      $("ol li").attr("class", "");   //把所有的li的样式移除
+      $("ol li:eq(" + parseInt(i) + ")").attr("class", "hasClass");    //下面的图标显示
+
+    })
+    mm = setTimeout("hh()", 4000);   //每个4秒做一次动画
+  }
+
+  $(document).ready(function () {
+    // mm = setTimeout("hh()", 4000);
+    //点第几张就显示几张    左右也是一回事，这里没写
+    $("ol").on("click", "li", function () {
+      var jj = $(this).attr("data-slide"); //点的第几张
+      $("ol li").attr("class", "");
+      $("ol li:eq(" + parseInt(jj) + ")").attr("class", "hasClass");    //下面的图标显示
+      // clearTimeout(mm);
+      $("ul").animate({ "left": "-" + parseInt(jj) + "00%" }, 1200, function () {
+        // mm = setTimeout("hh()", 4000);
+      });  //重新定位下
+    })
+  })
+
+
+</script>
