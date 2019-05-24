@@ -383,3 +383,72 @@ var list = []; //声明一个数组list,用来存放元素的后代元素.
       console.log(list);
 7.JavaScript数据结构之链表的实现；
 8.Js里的危险和攻击数据结构CSSHTML。
+
+19. blob对象
+Blob的英文全称是Binary Large Object，翻译成汉语是二进制大型对象。
+
+HTML5中，Blob是一种JavaScript数据类型，用于存储二进制数据。
+
+此对象中存储的数据没有必要非得是JavaScript原生格式数据，也就是没必要是JavaScript内部对象。
+
+比如可以是File对象，它继承Blob对象，并扩展了一些功能。
+通过url下载文件
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="author" content="http://www.softwhy.com/" />
+<title>蚂蚁部落</title>
+<script>
+function creatUrl(fileName, content){
+  let blob = new Blob([content]);
+  let link = document.createElement("a");
+  link.innerHTML = fileName;
+  link.download = fileName;
+  link.href = URL.createObjectURL(blob);
+  document.getElementsByTagName("body")[0].appendChild(link);
+}
+window.onload=function(){
+  creatUrl("ant.txt","蚂蚁部落");
+}
+</script>
+</head>
+<body>
+</body>
+</html>
+
+20. arrayBuffer， typedArray， dataView
+（1）ArrayBuffer对象：代表内存之中的一段二进制数据，可以通过“视图”进行操作。“视图”部署了数组接口，这意味着，可以用数组的方法操作内存。
+
+（2）TypedArray视图：共包括 9 种类型的视图，比如Uint8Array（无符号 8 位整数）数组视图, Int16Array（16 位整数）数组视图, Float32Array（32 位浮点数）数组视图等等。
+
+（3）DataView视图：可以自定义复合格式的视图，比如第一个字节是 Uint8（无符号 8 位整数）、第二、三个字节是 Int16（16 位整数）、第四个字节开始是 Float32（32 位浮点数）等等，此外还可以自定义字节序。
+
+const buf = new ArrayBuffer(32);
+上面代码生成了一段 32 字节的内存区域，每个字节的值默认都是 0。可以看到，ArrayBuffer构造函数的参数是所需要的内存大小（单位字节）。
+
+为了读写这段内容，需要为它指定视图。DataView视图的创建，需要提供ArrayBuffer对象实例作为参数。
+
+const buf = new ArrayBuffer(32);
+const dataView = new DataView(buf);
+dataView.getUint8(0) // 0
+
+ArrayBuffer对象作为内存区域，可以存放多种类型的数据。同一段内存，不同数据有不同的解读方式，这就叫做“视图”（view）。ArrayBuffer有两种视图，一种是TypedArray视图，另一种是DataView视图。前者的数组成员都是同一个数据类型，后者的数组成员可以是不同的数据类型。
+
+目前，TypedArray视图一共包括 9 种类型，每一种视图都是一种构造函数。
+
+Int8Array：8 位有符号整数，长度 1 个字节。
+Uint8Array：8 位无符号整数，长度 1 个字节。
+Uint8ClampedArray：8 位无符号整数，长度 1 个字节，溢出处理不同。
+Int16Array：16 位有符号整数，长度 2 个字节。
+Uint16Array：16 位无符号整数，长度 2 个字节。
+Int32Array：32 位有符号整数，长度 4 个字节。
+Uint32Array：32 位无符号整数，长度 4 个字节。
+Float32Array：32 位浮点数，长度 4 个字节。
+Float64Array：64 位浮点数，长度 8 个字节。
+
+// 创建一个8字节的ArrayBuffer
+const b = new ArrayBuffer(8);
+
+// 创建一个指向b的Int32视图，开始于字节0，直到缓冲区的末尾
+const v1 = new Int32Array(b);
