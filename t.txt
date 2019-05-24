@@ -226,6 +226,15 @@ web worker，web worker是运行在浏览器后台的js程序，他不影响主�
 （5）多个页面之间如何进行通信使用cookie，使用web worker，使用localeStorage和sessionStorage
 
 （6）浏览器的渲染过程。
+    DOM Tree：浏览器将HTML解析成树形的数据结构。
+
+　　CSS Rule Tree：浏览器将CSS解析成树形的数据结构。
+
+　　Render Tree: DOM和CSSOM合并后生成Render Tree。
+
+　　layout: 有了Render Tree，浏览器已经能知道网页中有哪些节点、各个节点的CSS定义以及他们的从属关系，从而去计算出每个节点在屏幕中的位置。
+
+　　painting: 按照算出来的规则，通过显卡，把内容画到屏幕上。
 
 （7）重构、回流浏览器的重构指的是改变每个元素外观时所触发的浏览器行为，
 比如颜色，背景等样式发生了改变而进行的重新构造新外观的过程。重构不会引发页面的重新布局，不一定伴随着回流，
