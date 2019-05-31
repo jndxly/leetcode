@@ -1065,6 +1065,39 @@ function kmp(str, matchStr){
 
 }
 
+function getNext(str, next){
+    next[0] = -1;
+    let k = -1;
+    for(let len = 1; len < str.length; len++){
+        if(str[len] == str[k+1]){
+            k++;
+            str[len] = k;
+        }
+        else{
+          while(k != -1 && str[len] != str[k+1]){
+            k = next[k]
+          }
+        }
+
+    }
+}
+function kmp(str, matchStr){
+    let next = [];
+    getNext(matchStr, next);
+    let k = -1;
+    for(let len = 0; len < str.length; len++){
+          while(k != -1 && str[len] != str[k+1]){
+              k = next[k]
+          }
+          if(str[len] == matchStr[k+1]){
+              k++;
+              if(k == matchStr.length - 1){
+                  return len - k ;
+              }
+          }
+    }
+}
+
 /*js实现promise
 *
 * promise特点
@@ -1116,24 +1149,37 @@ class PromiseN{
             throw new TypeError("Promise.all need Array object as argument");
         }
 
-        return new PromiseM(function(resolve, reject){
-            let count = arr.length;
-            let result = [];
+      function isPromise(obj) {
+        return !!obj && (typeof obj === 'object' || typeof obj === 'function') && typeof obj.then === 'function';
+      }
 
-            for(let key in arr){
-                let p = arr[key];
-                p.then(function(v){
-                    count--;
-                    result[key] = v;
-                    if(count == 0){
-                        resolve(result);
-                    }
-                },function(){
-                    reject();
-                })
+      return new PromiseM(function(resolve, reject){
+        let count = arr.length;
+        let result = [];
+
+        for(let key in arr){
+          let p = arr[key];
+          if(isPromise(p)){
+            p.then(function(v){
+              count--;
+              result[key] = v;
+              if(count == 0){
+                resolve(result);
+              }
+            },function(){
+              reject();
+            })
+          }
+          else{
+            result[key] = v;
+            if(count == 0){
+              resolve(result);
             }
+          }
 
-        })
+        }
+
+      })
 
 
     }
