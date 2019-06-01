@@ -41,7 +41,8 @@ function reverseWords(str){
 }
 
 /*
-给定两个分别由字母组成的字符串A和字符串B，字符串B的长度比字符串A短。请问，如何最快地判断字符串B中所有字母是否都在字符串A里？
+给定两个分别由字母组成的字符串A和字符串B，字符串B的长度比字符串A短。
+请问，如何最快地判断字符串B中所有字母是否都在字符串A里？
  */
 function StringContain(str1, str2){
 
@@ -155,6 +156,36 @@ function reverse(arr, index){
     }
 }
 
+function permutation(str, arr){
+    let strArr = str.split("");
+    strArr.sort(function(a,b){
+        return a.charAt(0) - b.charAt(0)
+    })
+  arr.push(strArr.slice(0).join(""));
+    let isEnd = false
+  while(!isEnd){
+        let index1, index2;
+        for(let len = strArr.length - 2; len >=0; len--){
+            if(strArr[len].charCodeAt(0) - strArr[len+1].charCodeAt(0) < 0){
+                index1 = len;
+
+            }
+
+        }
+    if(len <0){
+      isEnd = true
+      break;
+    }
+    for(let i = strArr.length - 1; i>=0; i--){
+      if(str[i].charCodeAt(0) > ){
+        index2 = i;
+      }
+    }
+    swap(arr, index1, index2;)
+    reverse(arr, index1+1, index2)
+  }
+}
+
 /*
 已知字符串里的字符是互不相同的，现在任意组合，比如ab，则输出aa，ab，ba，bb，编程按照字典序输出所有的组合。
  */
@@ -203,6 +234,25 @@ function getStr(str, num, pre, arr){
 
 }
 
+function combine(str, arr){
+    for(let len = 1; len <= str.length; len++){
+        getStr(str, len, "", arr)
+    }
+}
+function getStr(str, num, pre, arr){
+
+    if(pre.length == num - 1){
+        for(let len = 0; len < str.length; len++){
+            arr.push(pre + str.charAt(len))
+        }
+    }
+    else{
+        for(let len = 0; len < str.length; len++){
+            getStr(str.substring(0, len) + str.substring(len +1), num, str.pre + charAt(len), arr)
+        }
+    }
+
+}
 /**
  * 在一个字符串中找到第一个只出现一次的字符。如输入abaccdeff，则输出b。
  */
@@ -282,6 +332,23 @@ function processStr(str){
     return newStr;
 }
 
+function getPa(str){
+    let xm = 0, id = 0;
+    let p = [];
+    p[0] = 1;
+    let newStr = processStr(str)
+    for(let len = 1; len < newStr; len++){
+        p[len]= xm > len? Math.min(2*id - xm, xm-len):1;
+        while(p[len + p[len]] = p[len - p[len]]){
+            p[len]++;
+        }
+        if(p[len ] > xm - id){
+            id = len;
+            xm = len + p[len]
+        }
+    }
+}
+
 /*
 13、最长重复子串
 
@@ -332,6 +399,35 @@ function comLen(str1, str2){
     return len;
 }
 
+function findRepeatSub(str){
+    let arr = [];
+    for(let len = 0; len < str.length - 1 ; len++){
+        arr.push(str.substring(len, str.length - 1));
+    }
+    let max = 0, cur = 0;
+    for(let len = 0; len < arr.length - 1; len++){
+        cur = comLen(arr, len, len+1)
+      if(cur > max){
+            max = cur;
+
+      }
+    }
+}
+
+function comLen(arr, i, j){
+    let str1 = arr[i], str2 = arr[j];
+    let start1 = 0, start2 = 0 , len  = 0;
+    while(start1 < str1.length && start2 < str2.length){
+        if(str1[start1] == str2[start2]){
+            len++;
+            start1++;
+            start2++;
+        }
+        else{
+            return len;
+        }
+    }
+}
 /*
 输入n个整数，输出其中最小的k个。
  */
@@ -1237,12 +1333,16 @@ function quickSort(arr){
 /*
 定时器啥时候进入任务队列
 
-在单线程的Javascript引擎中，setTimeout()是如何运行的呢，这里就要提到浏览器内核中的事件循环模型了。简单的讲，在Javascript执行引擎之外，有一个任务队列，
+在单线程的Javascript引擎中，setTimeout()是如何运行的呢，这里就要提到浏览器内核中的事件循环模型了。
+简单的讲，在Javascript执行引擎之外，有一个任务队列，
 当在代码中调用setTimeout()方法时，
-注册的延时方法会交由浏览器内核其他模块（以webkit为例，是webcore模块）处理，当延时方法到达触发条件，即到达设置的延时时间时，这一延时方法被添加至任务队列里。
-这一过程由浏览器内核其他模块处理，与执行引擎主线程独立，执行引擎在主线程方法执行完毕，到达空闲状态时，会从任务队列中顺序获取任务来执行，这一过程是一个不断循环的过程，
+注册的延时方法会交由浏览器内核其他模块（以webkit为例，是webcore模块）处理，当延时方法到达触发条件，
+即到达设置的延时时间时，这一延时方法被添加至任务队列里。
+这一过程由浏览器内核其他模块处理，与执行引擎主线程独立，执行引擎在主线程方法执行完毕，到达空闲状态时，
+会从任务队列中顺序获取任务来执行，这一过程是一个不断循环的过程，
 称为事件循环模型。
-当一个异步事件触发，它的回调函数先进入事件队列中排队，任务队列是一个先进先出的数据结构，排在前面的事件，一旦执行栈为空，优先被主线程读取到栈中执行。
+当一个异步事件触发，它的回调函数先进入事件队列中排队，任务队列是一个先进先出的数据结构，排在前面的事件，
+一旦执行栈为空，优先被主线程读取到栈中执行。
 主线程从任务队列中读取事件，这个过程循环不断，所以整个的这种运行机制又称为Event loop。
  */
 
@@ -1361,6 +1461,20 @@ function inheritProtoype(sub, base){
 function Child(name){
   Parent.call(this, name);
 }
+/*
+语法：
+Object.create(proto, [propertiesObject])
+//方法创建一个新对象，使用现有的对象来提供新创建的对象的proto。
+参数：
+
+
+proto : 必须。表示新建对象的原型对象，即该参数会被赋值到目标对象(即新对象，或说是最后返回的对象)的原型上。
+该参数可以是null， 对象， 函数的prototype属性 （创建空的对象时需传null , 否则会抛出TypeError异常）。
+propertiesObject : 可选。 添加到新创建对象的可枚举属性（即其自身的属性，而不是原型链上的枚举属性）
+对象的属性描述符以及相应的属性名称。这些属性对应Object.defineProperties()的第二个参数。
+3 返回值：
+在指定原型对象上添加新属性后的对象。
+ */
 方法1:Child.prototype = Object.create(Parent.prototype);
 方法2：inheritProtoype(Child, Parent)
 
@@ -1466,7 +1580,7 @@ Function.prototype.$call = function(target){
     target = target || window;
     let args = [];
     target.fn = this;
-    args = Array.prototype.slice.call(arguments, 1);
+    args = [...arguments].slice(1)
     let result = target.fn(args.join(","));
     delete target.fn;
     return result;
