@@ -156,35 +156,6 @@ function reverse(arr, index){
     }
 }
 
-function permutation(str, arr){
-    let strArr = str.split("");
-    strArr.sort(function(a,b){
-        return a.charAt(0) - b.charAt(0)
-    })
-  arr.push(strArr.slice(0).join(""));
-    let isEnd = false
-  while(!isEnd){
-        let index1, index2;
-        for(let len = strArr.length - 2; len >=0; len--){
-            if(strArr[len].charCodeAt(0) - strArr[len+1].charCodeAt(0) < 0){
-                index1 = len;
-
-            }
-
-        }
-    if(len <0){
-      isEnd = true
-      break;
-    }
-    for(let i = strArr.length - 1; i>=0; i--){
-      if(str[i].charCodeAt(0) > ){
-        index2 = i;
-      }
-    }
-    swap(arr, index1, index2;)
-    reverse(arr, index1+1, index2)
-  }
-}
 
 /*
 已知字符串里的字符是互不相同的，现在任意组合，比如ab，则输出aa，ab，ba，bb，编程按照字典序输出所有的组合。
@@ -976,7 +947,29 @@ function throttle(method,duration){
 // window.onresize=throttle(resizehandler,500);
 
 
-
+function T(tpl){
+    let reg = /\{\s*([])\s\}/m;
+    let fn, match, code = ["var r = [];"];
+    var addLine = function(text){
+        code.push(`r.push('${text.replace()}')`)
+    }
+    while(match = reg.exec(tpl)){
+        if(math.index > 0){
+            addLine(tpl.substring(0, match.index))
+        }
+        if(match[1]){
+            addLine(`this.${match[1]}`);
+        }
+        tpl = tpl.substrig(match.index + match[0].length)
+    }
+    addLine(tpl);
+    code.push(`return r.join('')`);
+    code = code.join("\n");
+    var fn = code.join("");
+    this.render = function(model){
+        return fn.call(model)
+    }
+}
 function Template(tpl) {
     var
         fn,
@@ -1038,6 +1031,23 @@ function getPath(root,total, sum, path){
     total -= root.val;
     path.pop();
 
+}
+
+function getPath(root, sum, total, path){
+    if(!root) return;
+    total += root.val;
+    path.push(node.val)
+    if(!root.left && !root.right && total == sum){
+        print(path)
+    }
+    if(roo.left){
+        getPath(root.left, sum, total, path)
+    }
+    if(roo.right){
+        getPath(root.right, sum, total, path)
+    }
+    total -= root.val;
+    path.pop();
 }
 
 function getPath(root, sum){
