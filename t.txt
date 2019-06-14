@@ -76,11 +76,13 @@ obj.hello = "";
 
 6.前端如何跨域拿到cookie
 比如本地域名是aaa.com，但是接口用的是bbb.com的，所以现在后端传回来的cookie也在bbb.com上面
-由于浏览器限制，前端不能拿到跨域 cookie 。 你需要让后端加上请求头
+由于浏览器限制，前端不能拿到跨域 cookie 。 你需要让后端加上请求头。只能跨域成功，发送和接受时携带cookie。而不能通过js获取cookie。
 
 Access-Control-Allow-Origin: http://aaa.com
 Access-Control-Allow-Credentials: true
 Access-Control-Allow-Headers: Content-Type, Set-Cookie, *
+
+
 
 6.
 async function async1() {
