@@ -228,7 +228,7 @@ function getStr(str, num, pre, arr){
     }
     else{
         for(let len = 0; len <= str.length - num; len++){
-            getStr(str.substr(0, len) + str.substr(len + 1), num - 1, pre + str.charAt(len), arr)
+            getStr( str.substr(len + 1), num - 1, pre + str.charAt(len), arr)
         }
     }
 
@@ -1476,7 +1476,9 @@ propertiesObject : 可选。 添加到新创建对象的可枚举属性（即其
 在指定原型对象上添加新属性后的对象。
  */
 方法1:Child.prototype = Object.create(Parent.prototype);
+Child.prototype.constructor = Child;
 方法2：inheritProtoype(Child, Parent)
+
 
 /*webpac compiler的继承
 *
