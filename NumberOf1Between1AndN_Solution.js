@@ -46,7 +46,7 @@ function NumberOf1Between1AndN_Solution1(n)
   let total = 0;
   for(let i = 1; i <= n; i = i * 10){
     let a = Math.floor(n/i),b = n%i;
-    total=total+(a+8)/10*i+(a%10==1)*(b+1);
+    total=total+Math.floor((a+8)/10)*i+(a%10==1)*(b+1);
   }
   return total
 }
