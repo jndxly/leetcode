@@ -86,11 +86,16 @@ Access-Control-Allow-Headers: Content-Type, Set-Cookie, *
 async function async1() {
     console.log("async1 start");
     await async2();
+    await async3();
     console.log("async1 end");
 }
 
 async function async2() {
     console.log("async2");
+}
+
+async function async3(){
+ console.log("async3");
 }
 
 console.log("script start");
@@ -118,6 +123,7 @@ async2
 promise1
 script end
 async1 end
+async3
 promise2
 setTimeout
 
@@ -127,6 +133,7 @@ function getQueryString(name) {
         var r = window.location.search.match(reg);
         return r ? decodeURIComponent(r[1]) : '';
     }
+
 
 7.获取cookie
 function getCookieByName(name) {
@@ -161,7 +168,13 @@ function addCookie(name, value, days) {
     }
     document.cookie = name + '=' + encodeURIComponent(value) + expires + '; path=/'
 }
-
+let expires = "";
+if(days){
+var d = new Date();
+d.setTime(d.valueOf() + days * );
+expires = "expires=" + d.toUTCString();
+}
+document.cookie = name + "=" + encodeURIComponent(value) + expires + "path=/"
 function removeCookieByName(name) {
     addCookie(name, '', -1)
 }
