@@ -73,3 +73,12 @@ chunk，生成的 asset 以及用来生成最后打包文件的 template 的信�
   bootstrap 生成启动代码
 
   emit 把各个chunk输出到结果文件
+
+
+  根据我们的webpack配置注册号对应的插件
+  1.调用 compile.run 进入编译阶段，
+  2.在编译的第一阶段是 compilation，他会注册好不同类型的module对应的 factory，不然后面碰到了就不知道如何处理了
+  3.进入 make 阶段，会从 entry 开始进行两步操作：
+  4.第一步是调用 loaders 对模块的原始代码进行编译，转换成标准的JS代码
+  5.第二步是调用 acorn 对JS代码进行语法分析，然后收集其中的依赖关系。每个模块都会记录自己的依赖关系，从而形成一颗关系树
+  6.最后调用 compilation.seal 进入 render 阶段，根据之前收集的依赖，决定生成多少文件，每个文件的内容是什么
