@@ -1223,6 +1223,49 @@ function kmp(str, matchStr){
 *
 * */
 
+function MyPromise(fn) {
+  let state = 'pending'
+  var resolveCallback = null
+  var rejectCallback = null
+  var childResolve = null
+  var childReject = null
+
+  this.then = function(onResolved, onRejected) {
+    if(state === 'pending') {
+      resolveCallback = onResolved
+      rejectCallback = onRejected
+    }
+
+    return new MyPromise((resolve, reject) => {
+      childResolve = resolve
+      childReject = reject
+    })
+  }
+
+  this.resolve = function(value) {
+    if(state === 'pending') {
+      if(resolveCallback) {
+        var ret = resolveCallback(value)
+        childResolve(ret)
+        state = 'resolved'
+      }
+
+    }
+  }
+
+  this.reject = function(reason) {
+    if(state === 'pending') {
+      if(rejectCallback) {
+        var ret = rejectCallback(reason)
+        childReject(ret)
+        state = 'rejected'
+      }
+    }
+  }
+
+  fn(this.resolve, this.reject)
+}
+
 class PromiseN{
 
     constructor(){
