@@ -294,13 +294,14 @@ function getPardim(str){
 
 }
 
+/*首尾一定加上不同的，不然while循环比对时，会出现undefined == undefined，并且为true*/
 function processStr(str){
 
-    let newStr = "#";
+    let newStr = "^#";
     for(let len = 0; len < str.length; len++){
         newStr += str.charAt(len) +"#";
     }
-    return newStr;
+    return newStr + "$";
 }
 
 function getPa(str){
