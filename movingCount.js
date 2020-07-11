@@ -39,4 +39,5 @@ function movingCount(threshold, rows, cols)
         }
         return sum;
     }
+    move(0, 0, threshold, rows, cols, arr)
 }
