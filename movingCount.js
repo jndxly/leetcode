@@ -17,13 +17,13 @@ function movingCount(threshold, rows, cols)
     function move(x, y, threshold, rows, cols, arr){
         if(x < 0 || y < 0 || x >= rows || y >= cols || arr[x][y])
             return 0;
-        let sum = getSum(x + y);
+        let sum = getSum(x + '' + y);
         if(sum > threshold){
             return 0;
         }
         else{
             arr[x][y] = true;
-            1 + move(x + 1, y, threshold, row, cols, arr)
+            return 1 + move(x + 1, y, threshold, rows, cols, arr)
             + move(x - 1, y, threshold, rows, cols, arr)
             + move(x, y + 1, threshold, rows, cols, arr )
             + move(x, y -1, threshold, rows, cols, arr)
@@ -39,5 +39,5 @@ function movingCount(threshold, rows, cols)
         }
         return sum;
     }
-    move(0, 0, threshold, rows, cols, arr)
+    return move(0, 0, threshold, rows, cols, arr)
 }
