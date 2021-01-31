@@ -28,7 +28,7 @@ function removeK(str, num){
     arr.push(str.charAt(0));
     for(let len = 1; len < str.length; len++){
 
-        if(arr[top] > str.charAt(len) && k < num){
+        while(top >= 0 && arr[top] > str.charAt(len) && k < num){
             top--;
             k++;
         }
@@ -51,7 +51,7 @@ function removeK(arr, k){
     let index = 1;
     while(index < arr.length){
 
-        if(stack[top] > arr[index]){
+        while(top >= 0 && stack[top] > arr[index]){
             top--;
             k--;
         }
