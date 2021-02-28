@@ -16,7 +16,7 @@ function add(){
     }
 
     _adder.valueOf = function(){
-      _args.reduce(function(a,b){
+     return  _args.reduce(function(a,b){
         return a+b;
       })
     }
@@ -25,7 +25,7 @@ function add(){
 
   }
 
-  _add(_args)
+  _add()
 
 }
 
