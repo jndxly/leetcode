@@ -13,9 +13,12 @@ function VerifySquenceOfBST(sequence) {
     if (start >= end) {
       return true;
     }
+    //查找根节点
     var root = sequence[end];
+    //判断左子树的边界，剩下的则是右子树的元素
     for(var i = start; i < end && sequence[i] < root; i++);
     var index = i;
+    //根据定义，右子树都必须大于根节点，否则返回false
     for (i = i + 1; i < end; i++) {
       if (sequence[i] < root) {
         return false;
