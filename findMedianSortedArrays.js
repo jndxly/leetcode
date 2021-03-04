@@ -231,3 +231,32 @@ function find(arr1, arr2){
 
 
 }
+function getSort(arr1, arr2){
+    if(arr1.length > arr2.length){
+        return getSort(arr2, arr1)
+    }
+    let len1 = arr1.length, len2 = arr2.length, left = 0, right = len1;
+    // median1：前一部分的最大值
+    // median2：后一部分的最小值
+    let median1 = 0, median2 = 0;
+    while(left <= right){
+        // 前一部分包含 nums1[0 .. i-1] 和 nums2[0 .. j-1]
+        // 后一部分包含 nums1[i .. m-1] 和 nums2[j .. n-1]
+        let i = Math.floor((left + right)/2);
+        let j = Math.floor((len1 + len2 + 1)/2 - i);
+        let left1 = i === 0?Number.NEGATIVE_INFINITY:arr1[i-1];
+        let right1 = i === len1?Number.POSITIVE_INFINITY:arr1[i];
+        let left2 = j === 0?Number.NEGATIVE_INFINITY:arr2[j-1];
+        let  right2 = j === len2? Number.POSITIVE_INFINITY:arr2[j];
+        if(left1 > right2){
+            right = i - 1;
+        }
+        else{
+            median1 = Math.max(left1, left2)
+            median2 = Math.min(right1, right2)
+            left  = i+1;
+        }
+    }
+    return (len1 + len2) %  2 ===  0?(median1 + median2)/2:median1;
+}
+
