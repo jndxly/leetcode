@@ -40,16 +40,15 @@ p、q 为不同节点且均存在于给定的二叉树中。
  7  *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  8  * };
  9  */
-10 class Solution {
-11 public:
-12     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
-13         if(root==NULL || root==p || root==q)//base case
-14             return root;
-15         TreeNode *left = lowestCommonAncestor(root->left, p, q);
-16         TreeNode *right = lowestCommonAncestor(root->right, p, q);
-17         if(left!=NULL && right!=NULL){
-18             return root;
-19         }
-20         return left!=NULL?left:right;
-21     }
-22 };
+
+function lowestCommonAncestor(r, p, q){
+    if(!r || r === p || r === q){
+        return r;
+    }
+    const left = lowestCommonAncestor(r.left, p, q);
+    const right = lowestCommonAncestor(r.right, p, q);
+    if(left && right){
+        return r;
+    }
+    return !left?right:left;
+}
