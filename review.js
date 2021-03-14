@@ -889,7 +889,7 @@ function add() {
         return _adder;
     }
     // return adder.apply(null, _args);
-    return adder(..._args);
+    return adder();
 }
 
 //  通用的函数柯里化构造方法
