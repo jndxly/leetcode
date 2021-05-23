@@ -98,8 +98,7 @@ function isSiblingStr(str1, str2){
 
 }
 
-var arr = [];
-permutation("abc",arr);
+
 /*
 升序：相邻两个位置ai < ai+1，ai 称作该升序的首位
 步骤（二找、一交换、一翻转）
@@ -108,6 +107,26 @@ permutation("abc",arr);
 交换x，y
 把第(i+ 1)位到最后的部分翻转
  */
+//递归
+var arr = [];
+combine_permutation('abc', arr)
+function combine_permutation(str, result){
+    getStr(str, 3, '', result)
+    
+    function getStr(str, num, pre, result){
+
+        if(pre.length === num -1){
+            result.push(pre + str)
+        }
+        else{
+            for(let i = 0; i< str.length ; i++){
+                getStr(str.substring(0,i)+str.substring(i+1), num, pre + str[i], result)
+            }
+        }
+    }
+}
+var arr = [];
+permutation("abc",arr);
 function permutation(str, arr){
 
     let str2arr = str.split("");
