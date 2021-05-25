@@ -312,6 +312,19 @@ function getPardim(str){
     return Math.max(...p) - 1;
 
 }
+function getPardim1(str){
+    if(str.length === 0) return ;
+    let newStr = processStr(str);
+    let p = [], xm = 0, id = 0;
+    p[0] = 0;
+    for(let i = 1; i < newStr.length; i++){
+        p[i] = xm > i?Math.min(2*id - i, xm - i):1;
+        while(newStr[i + p[i]] = newStr[i - p[i]]){
+            i++;
+            p[i]++;
+        }
+    }
+}
 
 /*首尾一定加上不同的，不然while循环比对时，会出现undefined == undefined，并且为true*/
 function processStr(str){
@@ -534,6 +547,51 @@ function checkSum(arr, sum, flagArr, targetArr){
     if(total == sum){
         targetArr.push(flagArr.slice())
     }
+}
+
+/**
+ * 递归求解
+ */
+ var arr = [1,2,4,7,11,15];
+ var n = 6;
+ var k = 2;
+ var result = [];
+function getSum2(arr, n, k, sum, result){
+
+    let sub = [];
+    getResult(arr, k, sub, result);
+    console.log(result)
+
+    function getResult(arr, num, sub, result){
+
+        if(sub.length === num -1){
+            for(let i = 0; i < arr.length; i++){
+                let temp = sub.slice();
+                temp.push(arr[i]);
+                total = temp.reduce((pre, cur)=>{
+                    return pre + cur
+                }, 0)
+                if(total === sum){
+                    result.push(temp)
+                }
+                
+            }
+        }
+        else{
+           
+            for(let i = 0; i < arr.length - num + 1; i++){
+                let temp = sub.slice();
+                temp.push(arr[i])
+                getResult(arr.slice(i+1), num, temp, result)
+            }
+        }
+
+
+    }
+
+
+    
+
 }
 
 /*
