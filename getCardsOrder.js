@@ -25,17 +25,16 @@
 
           重复。
  */
-function getCardsOrder(input, cards){
-    if(cards.length > 0){
-        const card = cards.shift();
-        cards.push(card)
+function getCardsOrder(arr) {
+  if (arr.length <= 0) return [];
+
+  let result = [];
+  for (let i = arr.length - 1; i >= 0; i--) {
+    if (result.length > 0) {
+      const item = result.shift();
+      result.push(item);
     }
-    if(input.length === 0){
-        return cards;
-    }
-    else{
-        const card = input.pop();
-        cards.push(card);
-        getCardsOrder(input, cards)
-    }
+    result.push(arr[i]);
+  }
+  return result;
 }
