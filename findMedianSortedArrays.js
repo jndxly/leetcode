@@ -96,7 +96,7 @@ function findMideaNum(arr1, arr2){
 function findMedian1(arr1, arr2){
     if(!arr1.length || !arr2.length) return
     if(arr1.length > arr2.length){
-      return findMedian(arr2, arr1)
+      return findMedian1(arr2, arr1)
     }
   
     let len1 = arr1.length, len2 = arr2.length, mid = Math.floor((len1 + len2 + 1)/2)
@@ -113,6 +113,8 @@ function findMedian1(arr1, arr2){
       }
   
     }
+    mid1 = left
+    mid2 = mid - mid1
     const c1 = Math.max(mid1 === 0? Number.NEGATIVE_INFINITY:arr1[mid-1], mid2 === 0?Number.NEGATIVE_INFINITY:arr2[mid2-1])
     if((len1 + len2)%2 === 1) return c1
     const c2 = Math.min(mid1 === len1?Number.POSITIVE_INFINITY:arr1[mid1], mid2 === len2? Number.POSITIVE_INFINITY:arr2[mid2])
