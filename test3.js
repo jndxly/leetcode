@@ -49,7 +49,7 @@ function findMedia(arr1, arr2){
 
         let mid = len1 + len2, mid1 = Math.floor((left + right) / 2), mid2 = mid - mid1;
         left1 = mid1 == 0? Number.NEGATIVE_INFINITY:arr1[Math.floor((mid1 - 1)/2)];
-        right1 = mid1 == len1 * 2? Number.POSITIVE_INFINITY:arr1[Math.floor(mid /2)];
+        right1 = mid1 == len1 * 2? Number.POSITIVE_INFINITY:arr1[Math.floor(mid1 /2)];
 
         left2 = mid2 == 0?Number.NEGATIVE_INFINITY:arr2[Math.floor((mid2 - 1) / 2)];
         right2 = mid2 == 2 * len2?Number.POSITIVE_INFINITY:arr2[Math.floor(mid2 / 2)];
