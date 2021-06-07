@@ -6,7 +6,7 @@ function findRotateArr(arr){
     if(!arr.length) return
     let left = 0, right = arr.length - 1, mid
     while(left < right){
-        mid = left + ((right - left)>>1)
+        mid = Math.floor((left + right)/2)
         if(arr[right] > arr[mid]){
             right = mid
         }
