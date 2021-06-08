@@ -34,3 +34,22 @@ function getNum(arr, k) {
   }
   return len + k + 1;
 }
+
+function getNum1(arr, k) {
+  let len = arr.length;
+  let start = k+1,
+    end = len + k+1;
+  for (let i = 0; i < len; i++) {
+    if (arr[i] < start || arr[i] > end) {
+      arr[i] = 0;
+    } else {
+      arr[arr[i] - k - 1] = -1;
+    }
+  }
+  for (let i = 0; i < len; i++) {
+    if (arr[i] != -1) {
+      return i + k + 1;
+    }
+  }
+  return len + k + 1;
+}
