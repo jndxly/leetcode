@@ -3,21 +3,40 @@
 例如数组{3,4,5,1,2}为{1,2,3,4,5}的一个旋转，该数组的最小值为1。 NOTE：给出的所有元素都大于0，若数组大小为0，请返回0。
  */
 //使用二分法
-function minNumberInRotateArray(rotateArray)
-{
-    // write code here
-    if(rotateArray.length == 0) return 0;
-    let left = 0, right = rotateArray.length - 1, mid , temp;
-    while(left < right){
-        if(right - left == 1) return rotateArray[right];
-        mid = Math.floor((right + left)/2);
-        temp = rotateArray[mid];
-        if(temp >= rotateArray[left]){
-            left = mid ;
-        }
-        else {
-            right = mid;
-        }
+function minNumberInRotateArray(rotateArray) {
+  // write code here
+  if (rotateArray.length == 0) return 0;
+  let left = 0,
+    right = rotateArray.length - 1,
+    mid,
+    temp;
+  while (left < right) {
+    if (right - left == 1) return rotateArray[right];
+    mid = Math.floor((right + left) / 2);
+    temp = rotateArray[mid];
+    if (temp >= rotateArray[left]) {
+      left = mid;
+    } else {
+      right = mid;
     }
-    return rotateArray[right];
+  }
+  return rotateArray[right];
+}
+
+function minNumberInRotateArray1(arr) {
+  if (!arr.length) return 0;
+  let left = 0,
+    right = arr.length - 1,
+    mid;
+  while (left < right) {
+    mid = Math.floor((left + right) / 2);
+    if (arr[right] > arr[mid]) {
+      right = mid;
+    } else if (arr[right] < arr[mid]) {
+      left = mid + 1;
+    } else {
+      right--;
+    }
+  }
+  return arr[left]
 }

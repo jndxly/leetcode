@@ -297,7 +297,7 @@ function getPardim(str){
     let xm = 0;
     let id = 0;
     for(let len = 1; len < newStr.length; len++){
-        p[len] = xm > len?  Math.min(xm - len, 2 * id - len) : 1;
+        p[len] = xm > len?  Math.min(xm - len, p[2 * id - len]) : 1;
 
         while(newStr[ len + p[len]] == newStr[len - p[len]]){
             p[len]++;
