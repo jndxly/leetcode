@@ -98,7 +98,7 @@ function getLongest(str){
       id = i;
     }
   }
-  return p;
+  return Math.max(...p) - 1;
 }
 
 function process(str){

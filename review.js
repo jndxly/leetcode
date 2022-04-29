@@ -318,7 +318,7 @@ function getPardim1(str){
     let p = [], xm = 0, id = 0;
     p[0] = 0;
     for(let i = 1; i < newStr.length; i++){
-        p[i] = xm > i?Math.min(2*id - i, xm - i):1;
+        p[i] = xm > i?Math.min(p[2*id - i], xm - i):1;
         while(newStr[i + p[i]] = newStr[i - p[i]]){
             i++;
             p[i]++;
