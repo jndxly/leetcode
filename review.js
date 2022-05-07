@@ -1771,5 +1771,27 @@ function recurse(cur, prop) {
 }
 recurse(data, "");
 
+let a = {}
+ let b = {a:'a'}
+ let c = {c:'c'}
+ a[b] = '1'
+ a[c] = 2
+console.log(a[b], a[c], a[a]) // 2 2 2， 分析： b 和 c的键值最后都被转化为 [object Object] ,所以最后a对象只有一个属性值：[object Object]
 
+
+
+let tmp = {}
+function A(){}
+var aa= new A()
+A.prototype = tmp
+ 
+console.log(aa instanceof A) // false
+var bb=Object.create(tmp)
+bb.contructor = A.contructor
+console.log(bb instanceof A) //true
+
+/**
+ * 文件合并、压缩、混淆、分包、css sprite、webp、预加载&懒加载
+ * CDN、缓存、ssr
+ */
 
