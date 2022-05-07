@@ -1089,6 +1089,7 @@ var s = tpl.render({
 
 从二叉树的根到叶子节点称为一条路径，路径上的每个节点的value之和为路径和值，是否存在一条和值为N的。
  */
+
 function getPath(root,total, sum, path){
 
     if(root== null){
@@ -1792,6 +1793,6 @@ console.log(bb instanceof A) //true
 
 /**
  * 文件合并、压缩、混淆、分包、css sprite、webp、预加载&懒加载
- * CDN、缓存、ssr
+ * CDN、缓存、ssr 
  */
 
