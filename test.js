@@ -481,3 +481,47 @@ function search(str, pre){
   }
 
 }
+
+class interceptorManage{
+    constructor(){
+        this.interceptor = []
+    }
+
+    use(resolve, reject){
+        this.interceptor.push(reject)
+        this.interceptor.unshift(resolve)
+    }
+}
+
+class axios{
+    constructor(){
+        this.interceptor = {
+            request: new interceptorManage(),
+            response: new interceptorManage()
+        }
+    }
+    request(){
+        this.chain = [sendajax, undefined]
+        this.interceptor.request.forEach(item=>{
+            this.chain.unshift(item.resolve)
+            this.chain.push(item.reject)
+        })
+        let promise = Promise.resolve(config)
+        while(this.chain.length > 0){
+            promise = promise.then(chain.shift(), chain.pop())
+        }
+        return promise
+    }
+    sendajax(){
+
+    }
+}
+
+// request(){
+    
+
+//     this.chain = []
+//     this.chain = [this.senajax, undefined]
+
+
+// }
