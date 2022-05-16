@@ -35,6 +35,35 @@ function getNum(arr, k) {
   return len + k + 1;
 }
 
+function getNum2(arr, k) {
+  let len = arr.length;
+  let start = 1,
+    end = len + 1;
+  for (let i = 0; i < len; i++) {
+    arr[i] = arr[i] - k;
+  }
+  for (let i = 0; i < len; ) {
+    if(arr[i] != arr[arr[i] - 1]){
+      let temp = arr[arr[i]-1]
+      arr[arr[i]-1] = arr[i]
+      arr[i] = temp
+      // swap(arr[i], arr[arr[i] - 1])
+    }
+    else{
+      i++
+    }
+  }
+  for (let i = 0; i < len; i++) {
+    if (arr[i] != i + 1) {
+      return i + k + 1;
+    }
+  }
+  return len + k + 1;
+}
+var arr = [12, -80, 8, 14, 9, 19]
+let k = 7
+console.log(getNum(arr, k))
+
 function getNum1(arr, k) {
   let len = arr.length;
   let start = k+1,
