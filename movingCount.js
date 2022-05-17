@@ -41,3 +41,30 @@ function movingCount(threshold, rows, cols)
     }
     return move(0, 0, threshold, rows, cols, arr)
 }
+// const total = movingCount(18, 50, 50)
+// console.log(total)
+function getSum(x){
+    let sum = 0; 
+
+    while(x){
+        let z = x % 10;
+        sum += z;
+        x = Math.floor(x/10)
+    }
+    return sum;
+}
+function getTotal(threshold, rows, cols){
+    let total = 0
+    for(let i = 0; i < rows; i++){
+        for(let j = 0; j < cols; j++){
+            const sum = getSum(i) + getSum(j)
+            if(sum <= threshold){
+                total++
+            }
+        }
+    }
+    return total
+}
+
+const total = getTotal(18, 50, 50)
+console.log(total)
